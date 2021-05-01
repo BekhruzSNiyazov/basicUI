@@ -10,8 +10,9 @@ navbar.addItem("home", "Home");
 navbar.addItem("link", ["Another page", "/hello"]);
 // text on the right side of the navbar
 navbar.addItem("text", "Just text", "right");
-// adding an input field
-navbar.addItem("input", ["text", "Placeholder"], "right");
+// as you can see here, navbar.addItem returns the added element and you can easily change the styling of the element
+let input = navbar.addItem("input", ["text", "Placeholder"], "right");
+input.style.marginRight = "1vw";
 // adding a button
 navbar.addItem("button", ["primary", "Button"], "right");
 // adding a dropdown menu
