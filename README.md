@@ -1,3 +1,4 @@
+![](images/logo.png)
 # basicUI
 basicUI is a front end JavaScript framework created by Bekhruz Niyazov.
 
