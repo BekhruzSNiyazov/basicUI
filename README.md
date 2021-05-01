@@ -3,7 +3,7 @@
 basicUI is a front end JavaScript framework created by Bekhruz Niyazov.
 
 It is still in development.
-# Usage
+# Getting started
 Here is an example of how you can use `basicUI`:
 
 `index.html`
