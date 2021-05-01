@@ -41,7 +41,6 @@ Or, you can write all code in one file:
 <script src="https://raw.githubusercontent.com/BekhruzSNiyazov/basicUI/master/src/basicUI.js"></script>
 <!-- your JavaScript code -->
 <script>
-
     let navbar = createNavBar();
     navbar.setTitle("Example");
 </script>
