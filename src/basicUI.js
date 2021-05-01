@@ -40,7 +40,7 @@ class navBar {
 		document.body.appendChild(nav);
 	}
 
-	changeTitle(title = "Navbar", href = "#") {
+	setTitle(title = "Navbar", href = "#") {
 		let navTitle = document.getElementById("navbar-title");
 		if (href !== "#") {
 			navTitle.href = href;
@@ -62,14 +62,53 @@ class navBar {
 		}
 		if (role === "home") {
 			li.innerHTML = `<a class="nav-link active ${classes}" id="${id}" aria-current="page" href="/">${properties}</a>`
-		} else if (role === "icon") {
+		} else if (role === "logo") {
 			let navImage = document.getElementById("navbar-image");
-			navImage.innerHTML = `<img src="${properties[0]}" id="${id}" alt="Navbar Image" width="${properties[1]}" height="${properties[2]}" class="d-inline-block align-text-top">`
-				+ navImage.innerHTML;
+			navImage.innerHTML = `<img src="${properties[0]}" class="${classes}" id="${id}" alt="Navbar Image"
+				width="${properties[1]}" height="${properties[2]}" class="d-inline-block align-text-top">` + navImage.innerHTML;
 		} else if (role === "link") {
 			li.innerHTML = `<a class="nav-link ${classes}" id="${id}" href="${properties[1]}">${properties[0]}</a>`;
 		} else if (role === "text") {
-			li.innerHTML = `<span class="nav-link">${properties}</span>`;
+			li.innerHTML = `<span class="nav-link ${classes}" id="${id}">${properties}</span>`;
+		} else if (role === "input") {
+			li.innerHTML = `<input type="${properties[0]}" placeholder="${properties[1]}" class="form-control ${classes}" id="${id}">`;
+		} else if (role === "button") {
+			li.innerHTML = `<button type="button" class="btn btn-${properties[0]} ${classes}" id="${id}">${properties[1]}</button>`
+		} else if (role === "dropdown") {
+			// <li class="nav-item dropdown">
+			//           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+			//             Dropdown
+			//           </a>
+			//           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+			//             <li><a class="dropdown-item" href="#">Action</a></li>
+			//             <li><a class="dropdown-item" href="#">Another action</a></li>
+			//             <li><hr class="dropdown-divider"></li>
+			//             <li><a class="dropdown-item" href="#">Something else here</a></li>
+			//           </ul>
+			//         </li>
+			li.className = "nav-item dropdown";
+			let a = document.createElement("a");
+			a.className = "nav-link dropdown-toggle";
+			a.href = "#";
+			a.id = "navbarDropdown";
+			a.role = "button";
+			a.innerText = properties[0];
+			a.setAttribute("data-bs-toggle", "dropdown");
+			li.appendChild(a);
+			let ul = document.createElement("ul");
+			ul.className = "dropdown-menu";
+			li.appendChild(ul);
+			properties[1].forEach((text, index) => {
+				let el = document.createElement("a");
+				el.className = "dropdown-item";
+				el.href = "#";
+				el.innerText = text;
+				let liEl = document.createElement("li");
+				liEl.appendChild(el);
+				ul.appendChild(liEl);
+			});
+		} else {
+			throw `Role "${role}" is not recognized`;
 		}
 		list.appendChild(li);
 		return li;
