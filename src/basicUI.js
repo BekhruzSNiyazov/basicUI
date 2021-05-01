@@ -18,8 +18,10 @@ document.head.appendChild(style);
 
 // the class that contains all navbar functions
 class navBar {
-	constructor(theme) {
+	constructor(theme, backgroundColor) {
 		this.theme = theme;
+		console.log(backgroundColor);
+		this.backgroundColor = backgroundColor;
 		this.src = `<div class="container-fluid">
 						<a class="navbar-brand" id="navbar-image" href="#" style="padding-top: 0;"></a>
 						<a class="navbar-brand" id="navbar-title" href="#">Navbar</a>
@@ -38,7 +40,17 @@ class navBar {
 		let nav = document.createElement("nav");
 		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme}`;
 		nav.innerHTML = this.src;
+		if (this.backgroundColor !== "") {
+			nav.style.setProperty("background-color", this.backgroundColor, "important");
+		}
 		document.body.appendChild(nav);
+		this.element = nav;
+	}
+
+	// this function sets the background color of the navbar
+	setBackgroundColor(color) {
+		this.element.style.setProperty("background-color", color, "important");
+		this.backgroundColor = color;
 	}
 
 	// this function changes the title of the navbar
@@ -113,8 +125,8 @@ function setTitle(title) {
 }
 
 // function for creating a navbar
-function createNavBar(theme = "light") {
-	let nav = new navBar(theme);
+function createNavBar(theme = "light", backgrondColor = "") {
+	let nav = new navBar(theme, backgrondColor);
 	nav.add();
 	return nav;
 }

@@ -1,5 +1,8 @@
+// creating a navbar and setting the background color of the navbar
 // let navbar = createNavbar(); for a light navbar
-let navbar = createNavBar("dark");
+let navbar = createNavBar("dark", "#32a852");
+// changing the color of the navbar
+navbar.setBackgroundColor("#37474a");
 // setting the title on the navbar
 navbar.setTitle("Navbar Example");
 // setting the logo on the navbar
