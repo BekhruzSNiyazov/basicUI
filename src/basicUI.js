@@ -33,6 +33,7 @@ class navBar {
 					</div>`;
 	}
 
+	// this function adds the navbar to the body
 	add() {
 		let nav = document.createElement("nav");
 		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme}`;
@@ -40,6 +41,7 @@ class navBar {
 		document.body.appendChild(nav);
 	}
 
+	// this function changes the title of the navbar
 	setTitle(title = "Navbar", href = "#") {
 		let navTitle = document.getElementById("navbar-title");
 		if (href !== "#") {
@@ -48,6 +50,7 @@ class navBar {
 		navTitle.innerText = title;
 	}
 
+	// this function adds an item to the navbar
 	addItem(role, properties, position = "left", classes = "", id = "") {
 		let list, li;
 		if (position === "left") {
