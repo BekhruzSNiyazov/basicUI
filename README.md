@@ -3,6 +3,8 @@
 basicUI is a front end JavaScript framework created by Bekhruz Niyazov.
 
 It is still in development.
+
+[Learn by examples](https://github.com/BekhruzSNiyazov/basicUI/tree/master/examples/).
 # Getting started
 Here is an example of how you can use `basicUI`:
 
