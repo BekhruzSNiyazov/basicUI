@@ -91,13 +91,13 @@ class navBar {
 			ul.className = "dropdown-menu";
 			li.appendChild(ul);
 			properties[1].forEach((text, index) => {
-				let el = document.createElement("a");
-				el.className = "dropdown-item";
-				el.href = "#";
-				el.innerText = text;
-				let liEl = document.createElement("li");
-				liEl.appendChild(el);
-				ul.appendChild(liEl);
+				let element = document.createElement("a");
+				element.className = "dropdown-item";
+				element.href = "#";
+				element.innerText = text;
+				let listItemElement = document.createElement("li");
+				listItemElement.appendChild(element);
+				ul.appendChild(listItemElement);
 			});
 		} else {
 			throw `Role "${role}" is not recognized`;
