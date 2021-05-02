@@ -18,7 +18,6 @@ document.head.appendChild(style);
 
 // the font color
 let fontColor = "";
-// the number of buttons
 let textCount = 0;
 let inputCount = 0;
 let buttonCount = 0;
