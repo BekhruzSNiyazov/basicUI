@@ -31,7 +31,7 @@ function alignContent(element, position) {
 	} else if (position === "center") {
 		element.style.justifyContent = "center";
 	} else {
-		throw `Position should be "left" or "right" or "center"`
+		throw `Position should be "left" or "right" or "center"`;
 	}
 }
 
@@ -136,10 +136,12 @@ class navBar {
 	}
 
 	setStyle(style) {
-		if (this.element)
+		if (this.element) {
 			this.element.style.cssText += style;
-		else
+		}
+		else {
 			throw "Add element with .add method first";
+		}
 	}
 }
 
@@ -241,7 +243,7 @@ class Input {
 		if (this.backgroundColor) input.style.setProperty("background-color", this.backgroundColor, "important");
 		if (this.borderColor) input.style.setProperty("border-color", this.borderColor, "important");
 		span.appendChild(input);
-		this.element = span;
+		this.element = input;
 		wrapper.appendChild(this.element);
 		document.body.appendChild(wrapper);
 	}
@@ -308,7 +310,7 @@ class Button {
 		button.style.backgroundColor = this.backgroundColor;
 		button.style.borderColor = this.borderColor;
 		span.appendChild(button);
-		this.element = span;
+		this.element = button;
 		wrapper.appendChild(this.element);
 		document.body.appendChild(wrapper);
 	}
@@ -324,6 +326,15 @@ class Button {
 	update() {
 		this.remove();
 		this.add();
+	}
+
+	// this function sets the style of the element
+	setStyle(style) {
+		if (this.element) {
+			this.element.style.cssText += style;
+		} else {
+			throw "Add element with .add method first";
+		}
 	}
 }
 
