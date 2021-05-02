@@ -18,6 +18,23 @@ document.head.appendChild(style);
 
 // the font color
 let fontColor = "";
+// the number of buttons
+let textCount = 0;
+let inputCount = 0;
+let buttonCount = 0;
+
+function alignContent(element, position) {
+	element.style.display = "flex";
+	if (position === "left") {
+		element.style.justifyContent = "flex-start";
+	} else if (position === "right") {
+		element.style.justifyContent = "flex-end";
+	} else if (position === "center") {
+		element.style.justifyContent = "center";
+	} else {
+		throw `Position should be "left" or "right" or "center"`
+	}
+}
 
 class navBar {
 	constructor(theme, backgroundColor) {
@@ -37,7 +54,7 @@ class navBar {
 	}
 
 	// this function adds the navbar to the body
-	add() {
+	addSelf() {
 		let nav = document.createElement("nav");
 		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme}`;
 		nav.innerHTML = this.src;
@@ -128,26 +145,42 @@ class navBar {
 }
 
 class Text {
-	constructor(text, position, color) {
+	constructor(text, position) {
 		this.text = text;
 		this.position = position;
-		this.color = color;
+		this.color = ""
+		this.classes = "";
+		this.id = "";
+		this.hiddenId = "text" + textCount++;
+		this.removed = false;
 	}
 
 	// this function adds text to the body
 	add() {
+		let wrapper;
+		if (this.removed) {
+			wrapper = document.getElementById(this.hiddenId);
+			this.removed = false;
+		} else {
+			wrapper = document.createElement("span");
+			wrapper.id = this.hiddenId;
+		}
 		let div = document.createElement("div");
+		div.className = this.classes;
+		div.id = this.id;
 		div.innerText = this.text;
 		div.style.textAlign = this.position;
 		div.style.color = this.color;
 		this.element = div;
-		document.body.appendChild(this.element);
+		wrapper.appendChild(this.element);
+		document.body.appendChild(wrapper);
 	}
 
 	// this function removes element from the body
 	remove() {
 		this.element.remove();
 		this.element = null;
+		this.removed = true;
 	}
 
 	// this function updates the element
@@ -167,32 +200,36 @@ class Text {
 }
 
 class Input {
-	constructor(type, placeholder, value, position, width, color, backgroundColor, borderColor) {
+	constructor(type, placeholder) {
 		this.type = type;
 		this.placeholder = placeholder;
-		this.value = value;
-		this.position = position;
-		this.width = width;
-		this.color = color;
-		this.backgroundColor = backgroundColor;
-		this.borderColor = borderColor;
+		this.value = "";
+		this.position = "left";
+		this.width = "";
+		this.color = "";
+		this.backgroundColor = "";
+		this.borderColor = "";
+		this.classes = "";
+		this.id = "";
+		this.hiddenId = "input" + inputCount++;
+		this.removed = false;
 	}
 
 	// this function adds element to the body
 	add() {
-		let span = document.createElement("span");
-		span.style.display = "flex";
-		if (this.position === "left") {
-			span.style.justifyContent = "flex-start";
-		} else if (this.position === "right") {
-			span.style.justifyContent = "flex-end";
-		} else if (this.position === "center") {
-			span.style.justifyContent = "center";
+		let wrapper;
+		if (this.removed) {
+			wrapper = document.getElementById(this.hiddenId);
+			this.removed = false;
 		} else {
-			throw `Position should be "left" or "right" or "center"`
+			wrapper = document.createElement("span");
+			wrapper.id = this.hiddenId;
 		}
+		let span = document.createElement("span");
+		alignContent(span, this.position);
 		let input = document.createElement("input");
-		input.className = "form-control";
+		input.className = "form-control " + this.classes;
+		input.id = this.id;
 		input.type = this.type;
 		input.placeholder = this.placeholder;
 		input.value = this.value;
@@ -206,13 +243,15 @@ class Input {
 		if (this.borderColor) input.style.setProperty("border-color", this.borderColor, "important");
 		span.appendChild(input);
 		this.element = span;
-		document.body.appendChild(this.element);
+		wrapper.appendChild(this.element);
+		document.body.appendChild(wrapper);
 	}
 
 	// this function removes element from the body
 	remove() {
 		this.element.remove();
 		this.element = null;
+		this.removed = true;
 	}
 
 	// this function updates the element
@@ -231,6 +270,64 @@ class Input {
 	}
 }
 
+class Button {
+	constructor(text, type, position) {
+		this.text = text;
+		this.type = type;
+		this.position = position;
+		this.color = "";
+		this.backgroundColor = "";
+		this.borderColor = "";
+		this.classes = "";
+		this.id = "";
+		this.hiddenId = "button" + buttonCount++;
+		this.removed = false;
+		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
+		if (!types.includes(" " + type)) {
+			throw `The type ${type} was not recognized. Here is the list of available types:${types}`;
+		}
+	}
+
+	// this function adds the button to the body
+	add() {
+		let wrapper;
+		if (this.removed) {
+			wrapper = document.getElementById(this.hiddenId);
+			this.removed = false;
+		} else {
+			wrapper = document.createElement("span");
+			wrapper.id = this.hiddenId;
+		}
+		let span = document.createElement("span");
+		span.style.display = "inline";
+		alignContent(span, this.position);
+		let button = document.createElement("button");
+		button.className = "btn btn-" + this.type + " " + this.classes;
+		button.id = this.id;
+		button.innerText = this.text;
+		button.style.color = this.color;
+		button.style.backgroundColor = this.backgroundColor;
+		button.style.borderColor = this.borderColor;
+		span.appendChild(button);
+		this.element = span;
+		wrapper.appendChild(this.element);
+		document.body.appendChild(wrapper);
+	}
+
+	// this function removes the element
+	remove() {
+		this.element.remove();
+		this.element = null;
+		this.removed = true;
+	}
+
+	// this function updates the element
+	update() {
+		this.remove();
+		this.add();
+	}
+}
+
 // function for changing the title of the webpage
 function setTitle(title) {
 	document.title = title;
@@ -239,7 +336,7 @@ function setTitle(title) {
 // function for creating a navbar
 function createNavBar(theme = "light", backgroundColor = "") {
 	let nav = new navBar(theme, backgroundColor);
-	nav.add();
+	nav.addSelf();
 	return nav;
 }
 
@@ -279,9 +376,20 @@ function addHeader(text, position = "left", size = 6) {
 }
 
 // this function adds an input field to the body
-function addInput(type, placeholder = "", value = "", position = "left", width = "", color = "",
-				  backgroundColor = "", borderColor = "") {
-	let input = new Input(type, placeholder, value, position, width, color, backgroundColor, borderColor);
+function addInput(type, placeholder = "") {
+	let input = new Input(type, placeholder);
 	input.add();
 	return input;
+}
+
+// this function adds a new line in the file
+function addNewLine() {
+	document.body.appendChild(document.createElement("br"));
+}
+
+// this function adds a button to the body
+function addButton(text, type, position = "left") {
+	let button = new Button(text, type, position);
+	button.add();
+	return button;
 }
