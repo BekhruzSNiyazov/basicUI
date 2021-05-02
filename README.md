@@ -17,7 +17,7 @@ Here is an example of how you can use `basicUI`:
 </head>
 <body>
 <!-- importing basicUI -->
-<script src="https://raw.githubusercontent.com/BekhruzSNiyazov/basicUI/master/src/basicUI.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
 <!-- your JavaScript code -->
 <script src="index.js"></script>
 </body>
@@ -40,7 +40,7 @@ Or, you can write all code in one file:
 </head>
 <body>
 <!-- importing basicUI -->
-<script src="https://raw.githubusercontent.com/BekhruzSNiyazov/basicUI/master/src/basicUI.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
 <!-- your JavaScript code -->
 <script>
     let navbar = createNavBar();
