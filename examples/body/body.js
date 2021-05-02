@@ -15,6 +15,7 @@ text.position = "left";
 // updating the element
 text.update();
 
+let input = addInput("text", "hello, world", position="center");
 // adding a custom element
 addHTML(`<span style="text-align: center;">Hello, HTML</span>`)
 

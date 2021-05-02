@@ -13,7 +13,7 @@ bundleLink.crossOrigin = "anonymous";
 document.head.appendChild(bundleLink);
 // increase the font size of each element
 let style = document.createElement("style");
-style.innerHTML = `* { font-size: 1.2rem !important; }`;
+style.innerHTML = `* { font-size: 1.2rem !important; } .short-input { width: 20vw }`;
 document.head.appendChild(style);
 
 // the class that contains all navbar functions
@@ -143,6 +143,7 @@ class Text {
 
 	remove() {
 		this.element.remove();
+		this.element = null;
 	}
 
 	update() {
@@ -151,7 +152,64 @@ class Text {
 	}
 
 	setStyle(style) {
-		this.element.style.cssText += style;
+		if (this.element) {
+			this.element.style.cssText += style;
+		} else {
+			throw "Add element with .add method first";
+		}
+	}
+}
+
+class Input {
+	constructor(type, placeholder, position, color, backgroundColor, borderColor) {
+		this.type = type;
+		this.placeholder = placeholder;
+		this.position = position;
+		this.color = color;
+		this.backgroundColor = backgroundColor;
+		this.borderColor = borderColor;
+	}
+
+	add() {
+		let span = document.createElement("span");
+		span.style.display = "flex";
+		if (this.position === "left") {
+			span.style.justifyContent = "flex-start";
+		} else if (this.position === "right") {
+			span.style.justifyContent = "flex-end";
+		} else if (this.position === "center") {
+			span.style.justifyContent = "center";
+		} else {
+			throw `Position should be "left" or "right" or "center"`
+		}
+		let input = document.createElement("input");
+		input.className = "form-control short-input";
+		input.type = this.type;
+		input.placeholder = this.placeholder;
+		if (this.color) input.style.color = this.color;
+		if (this.backgroundColor) input.style.backgroundColor = this.backgroundColor;
+		if (this.borderColor) input.style.borderColor = this.borderColor;
+		span.appendChild(input);
+		this.element = span;
+		document.body.appendChild(this.element);
+	}
+
+	remove() {
+		this.element.remove();
+		this.element = null;
+	}
+
+	update() {
+		this.add();
+		this.remove();
+	}
+
+	setStyle(style) {
+		if (this.element) {
+			this.element.style.cssText += style;
+		} else {
+			throw "Add element with .add method first";
+		}
 	}
 }
 
@@ -178,7 +236,7 @@ function setFontColor(color = "black") {
 }
 
 // function for adding text
-function addText(text, position = "left", color = "black;") {
+function addText(text, position = "left", color = "black") {
 	let element = new Text(text, position, color);
 	element.add();
 	return element;
@@ -197,4 +255,11 @@ function addHeader(text, position = "left", size = "1") {
 	header.style.textAlign = position;
 	document.body.appendChild(header);
 	return header;
+}
+
+function addInput(type, placeholder = "", position = "", color = "",
+				  backgroundColor = "", borderColor = "") {
+	let input = new Input(type, placeholder, position, color, backgroundColor, borderColor);
+	input.add();
+	return input;
 }
