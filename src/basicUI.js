@@ -20,7 +20,6 @@ document.head.appendChild(style);
 class navBar {
 	constructor(theme, backgroundColor) {
 		this.theme = theme;
-		console.log(backgroundColor);
 		this.backgroundColor = backgroundColor;
 		this.src = `<div class="container-fluid">
 						<a class="navbar-brand" id="navbar-image" href="#" style="padding-top: 0;"></a>
@@ -117,6 +116,43 @@ class navBar {
 		list.appendChild(li);
 		return li;
 	}
+
+	setStyle(style) {
+		if (this.element)
+			this.element.style.cssText += style;
+		else
+			throw "Add element with .add method first";
+	}
+}
+
+class Text {
+	constructor(text, position, color) {
+		this.text = text;
+		this.position = position;
+		this.color = color;
+	}
+
+	add() {
+		let div = document.createElement("div");
+		div.innerText = this.text;
+		div.style.textAlign = this.position;
+		div.style.color = this.color;
+		this.element = div;
+		document.body.appendChild(this.element);
+	}
+
+	remove() {
+		this.element.remove();
+	}
+
+	update() {
+		this.remove();
+		this.add();
+	}
+
+	setStyle(style) {
+		this.element.style.cssText += style;
+	}
 }
 
 // function for changing the title of the webpage
@@ -125,8 +161,40 @@ function setTitle(title) {
 }
 
 // function for creating a navbar
-function createNavBar(theme = "light", backgrondColor = "") {
-	let nav = new navBar(theme, backgrondColor);
+function createNavBar(theme = "light", backgroundColor = "") {
+	let nav = new navBar(theme, backgroundColor);
 	nav.add();
 	return nav;
+}
+
+// function for setting the background color
+function setBackgroundColor(color = "white") {
+	document.body.style.backgroundColor = color;
+}
+
+// function for setting the font color
+function setFontColor(color = "black") {
+	document.body.style.color = color;
+}
+
+// function for adding text
+function addText(text, position = "left", color = "black;") {
+	let element = new Text(text, position, color);
+	element.add();
+	return element;
+}
+
+function addHTML(code) {
+	let span = document.createElement("span");
+	span.innerHTML = code;
+	document.body.appendChild(span);
+	return span;
+}
+
+function addHeader(text, position = "left", size = "1") {
+	let header = document.createElement("h" + size);
+	header.innerText = text;
+	header.style.textAlign = position;
+	document.body.appendChild(header);
+	return header;
 }
