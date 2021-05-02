@@ -16,10 +16,10 @@ Here is an example of how you can use `basicUI`:
     <meta charset="UTF-8">
 </head>
 <body>
-<!-- importing basicUI -->
-<script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
-<!-- your JavaScript code -->
-<script src="index.js"></script>
+    <!-- your JavaScript code -->
+    <script src="index.js"></script>
+    <!-- importing basicUI -->
+    <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
 </body>
 </html>
 ```
@@ -32,20 +32,19 @@ Or, you can write all code in one file:
 
 `index.html`
 ```html
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
-<!-- importing basicUI -->
-<script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
-<!-- your JavaScript code -->
-<script>
-    let navbar = createNavBar();
-    navbar.setTitle("Example");
-</script>
+    <!-- your JavaScript code -->
+    <script>
+        let navbar = createNavBar();
+        navbar.setTitle("Example");
+    </script>
+    <!-- importing basicUI -->
+    <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
 </body>
 </html>
 ```
