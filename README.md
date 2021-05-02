@@ -8,6 +8,17 @@ It is still in development.
 # Getting started
 Here is an example of how you can use `basicUI`:
 
+<script>
+    const elem = document.createElement('textarea');
+    elem.value = "https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js";
+    document.body.appendChild(elem);
+    elem.select();
+    document.execCommand('copy');
+    document.body.removeChild(elem);
+</script>
+
+<button onclick="copy();">Copy basicUI Library Link</button>
+
 `index.html`
 ```html
 <!DOCTYPE html>
