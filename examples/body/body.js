@@ -14,8 +14,11 @@ let text = addText("Just Text", "center");
 // adding an input field
 let input = addInput("text", "hello, world");
 addNewLine();
+
+// adding a button
 let button = addButton("hello", "primary", "center");
 addNewLine();
+
 // changing the position of the input
 input.position = "center";
 // changing the color of the input text
