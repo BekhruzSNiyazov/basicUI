@@ -173,7 +173,7 @@ class Text {
 		div.style.textAlign = this.position;
 		div.style.color = this.color;
 		this.element = div;
-		wrapper.appendChild(this.element);
+		wrapper.appendChild(div);
 		document.body.appendChild(wrapper);
 	}
 
@@ -244,7 +244,7 @@ class Input {
 		if (this.borderColor) input.style.setProperty("border-color", this.borderColor, "important");
 		span.appendChild(input);
 		this.element = input;
-		wrapper.appendChild(this.element);
+		wrapper.appendChild(span);
 		document.body.appendChild(wrapper);
 	}
 
@@ -311,7 +311,7 @@ class Button {
 		button.style.borderColor = this.borderColor;
 		span.appendChild(button);
 		this.element = button;
-		wrapper.appendChild(this.element);
+		wrapper.appendChild(span);
 		document.body.appendChild(wrapper);
 	}
 
