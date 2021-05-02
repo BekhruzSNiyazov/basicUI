@@ -16,7 +16,9 @@ let style = document.createElement("style");
 style.innerHTML = `* { font-size: 1.2rem !important; } .short-input { width: 20vw }`;
 document.head.appendChild(style);
 
-// the class that contains all navbar functions
+// the font color
+let fontColor = "";
+
 class navBar {
 	constructor(theme, backgroundColor) {
 		this.theme = theme;
@@ -249,11 +251,12 @@ function setBackgroundColor(color = "white") {
 // function for setting the font color
 function setColor(color = "black") {
 	document.body.style.color = color;
+	fontColor = color;
 }
 
 // function for adding text
-function addText(text, position = "left", color = "black") {
-	let element = new Text(text, position, color);
+function addText(text, position = "left", color = "") {
+	let element = new Text(text, position, color ? color : fontColor);
 	element.add();
 	return element;
 }
