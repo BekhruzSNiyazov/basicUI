@@ -15,6 +15,8 @@ card.position = "center";
 card.subtitle = "Subtitle"
 card.update();
 
+addNewLine();
+
 let card2 = createCard("Card with an image", "This is a card with an image", ["Find out more", "#", "button"]);
 // centering the card
 card2.position = "center";
