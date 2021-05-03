@@ -132,18 +132,25 @@ Full code:
     <script type="text/javascript">
         // creating the navbar
         let navbar =  createNavBar("dark");
+
         // adding a home link to the navbar
         navbar.addItem("home", "Home");
+
         // adding a logo to the navbar
         navbar.addItem("logo", ["images/logo.png", 175, 50]);
+
         // adding a link to another page
         navbar.addItem("link", ["Another Page", "/another"]);
+
         // adding some text on the right side of the navbar
         navbar.addItem("text", "Just Text", "right");
+
         // adding an input field on the right side of the navbar
         navbar.addItem("input", ["text", "Type something"], "right");
+
         // adding a button on the right side of the navbar
         navbar.addItem("button", ["primary", "Button"], "right");
+
         // adding a dropdown
         navbar.addItem("dropdown", ["Items", ["Hello", "World"]]);
     </script>
