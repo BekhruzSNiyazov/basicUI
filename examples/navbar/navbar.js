@@ -21,4 +21,4 @@ navbar.addItem("button", ["primary", "Button"], "right");
 // adding a dropdown menu
 navbar.addItem("dropdown", ["Dropdown", ["hello", "world"]]);
 // setting the title of the webpage
-setTitle("basicUI - Navbar");
+setTitle("Navbar - basicUI");

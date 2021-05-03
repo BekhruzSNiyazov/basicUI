@@ -33,3 +33,6 @@ addHTML(`<span style="text-align: center;">Hello, HTML</span>`)
 
 // adding a header
 addHeader("Hello, Header", "center", 6);
+
+// setting the title of the webpage
+setTitle("Body - basicUI")
