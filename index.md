@@ -98,6 +98,9 @@ This code creates a dark navbar with 7 items: `home`, `logo`, `link`, `text`, `i
 // creating the navbar
 let navbar =  createNavBar("dark");
 
+// changing the title of the navbar
+navbar.setTitle("Example");
+
 // adding a home link to the navbar
 navbar.addItem("home", "Home");
 
@@ -131,7 +134,10 @@ Full code:
     <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         // creating the navbar
-        let navbar =  createNavBar("dark");
+        let navbar = createNavBar("dark");
+
+        // changing the title of the navbar
+        navbar.setTitle("Example");
 
         // adding a home link to the navbar
         navbar.addItem("home", "Home");
@@ -159,3 +165,5 @@ Full code:
 ```
 Result:
 ![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=b3a97337-c2c2-4f83-a620-8de8fb73ec1f)
+
+<hr>
