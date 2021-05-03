@@ -49,8 +49,10 @@ createNavBar("dark", "#787878");
 
 To change the title on the navbar you can use `.setTitle` method. Here is an example of how you can do that:
 ```javascript
-let navbar = createNavbar(); // creating the navbar and saving it in a variable to access it later
-navbar.setTitle("Example"); // changing the title of the navbar
+// creating the navbar and saving it in a variable to access it later
+let navbar = createNavbar();
+// changing the title of the navbar
+navbar.setTitle("Example");
 ```
 
 <hr>
