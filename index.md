@@ -104,13 +104,13 @@ navbar.addItem("logo", ["images/logo.png", 175, 50]);
 // adding a link to another page
 navbar.addItem("link", ["Another Page", "/another"]);
 // adding some text on the right side of the navbar
-navbar.addItem("Just Text", "right");
+navbar.addItem("text", "Just Text", "right");
 // adding an input field on the right side of the navbar
 navbar.addItem("input", ["text", "Type something"], "right");
 // adding a button on the right side of the navbar
-navbar.addItem("button", ["primary", "Button"]);
+navbar.addItem("button", ["primary", "Button"], "right");
 // adding a dropdown
-navbar.addItem("dropdown", ["Items", "Hello", "World"]);
+navbar.addItem("dropdown", ["Items", ["Hello", "World"]]);
 ```
 Full code:
 ```html
@@ -132,16 +132,16 @@ Full code:
         // adding a link to another page
         navbar.addItem("link", ["Another Page", "/another"]);
         // adding some text on the right side of the navbar
-        navbar.addItem("Just Text", "right");
+        navbar.addItem("text", "Just Text", "right");
         // adding an input field on the right side of the navbar
         navbar.addItem("input", ["text", "Type something"], "right");
         // adding a button on the right side of the navbar
-        navbar.addItem("button", ["primary", "Button"]);
+        navbar.addItem("button", ["primary", "Button"], "right");
         // adding a dropdown
-        navbar.addItem("dropdown", ["Items", "Hello", "World"]);
+        navbar.addItem("dropdown", ["Items", ["Hello", "World"]]);
     </script>
 </body>
 </html>
 ```
 Result:
-![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=ad8f4fb0-2701-4bb8-9836-57e332506b53)
+![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=401f0ced-4472-4f81-8657-3c7bcd79c79a)
