@@ -85,7 +85,9 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
         - `displayed text`
     - an array of 2 items when role is `dropdown`:
         - `displayed text`
-        - an array of infinite number of dropdown items
+        - an array of infinite number of arrays of 2 items:
+            - `displayed text`
+            - `link`
 - `position` represents the position of the item on the navbar (`left` or `right`); it is set to `left` by default
 - `classes` can be used for accessing from JavaScript or CSS; it is set to `""` by default
 - `id` same thing as `classes` with one difference: `id`s are unique; it is set to `""` by default
