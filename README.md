@@ -6,7 +6,7 @@ It is still in development.
 
 [Documentation](https://bekhruzsniyazov.github.io/basicUI)
 
-[Learn by examples.](https://github.com/BekhruzSNiyazov/basicUI/tree/master/examples/)
+[Learn by examples](https://github.com/BekhruzSNiyazov/basicUI/tree/master/examples/)
 
 # Getting started
 Here is an example of how you can use `basicUI`:
