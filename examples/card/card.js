@@ -11,7 +11,9 @@ let text = "Hello World. This is a test card."
 
 // creating a card
 let card = createCard("Title", text,["Find out more", "#"]);
+// centering the card
 card.position = "center";
+// adding a subtitle
 card.subtitle = "Subtitle"
 card.update();
 
