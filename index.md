@@ -67,7 +67,7 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
     - `input` for input fields
     - `button` for buttons
     - `dropdown` for dropdowns
-- `properties` is for the properties of the item. Position can take several forms depending on the role of the item:
+- `properties` is for the properties of the item. `properties` can take several forms depending on the role of the item:
     - `displayed text` when role is `home`
     - an array of 3 items when role is `logo`:
         - `path to the source of the image`
