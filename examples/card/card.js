@@ -7,9 +7,13 @@ navbar.addItem("logo", ["../../images/logo.png", 175, 50]);
 // adding a line break
 addNewLine();
 
+let text = "Hello World. This is a test card."
+
 // creating a card
-createCard("Test", "Hello World. This is a test card. The result should be pretty cool.",
-	["Find out more", "#"], image = "../../images/logo.png", position = "center");
+let card = createCard("Title", text,["Find out more", "#"]);
+card.position = "center";
+card.subtitle = "Subtitle"
+card.update();
 
 // setting the title of the webpage
 setTitle("Card - basicUI");

@@ -345,6 +345,7 @@ class Card extends basicUIObject {
 	constructor(title, text, link, image, position) {
 		super();
 		this.title = title;
+		this.subtitle = "";
 		this.text = text;
 		this.link = link;
 		this.image = image;
@@ -369,17 +370,19 @@ class Card extends basicUIObject {
 			image.class = "card-img-top";
 			image.alt = "Card Image";
 			card.appendChild(image);
-		} else {
-			let span = document.createElement("span");
-			span.innerHTML = `<svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Image Not Available</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="18%" y="50%" fill="#dee2e6" dy=".3em">Image Not Available</text></svg>`;
-			card.appendChild(span);
 		}
 		let div = document.createElement("div");
 		div.className = "card-body";
-		let h5 = document.createElement("h5");
-		h5.className = "card-title";
-		h5.innerText = this.title;
-		div.appendChild(h5);
+		let title = document.createElement("h5");
+		title.className = "card-title";
+		title.innerText = this.title;
+		div.appendChild(title);
+		if (this.subtitle) {
+			let subtitle = document.createElement("h6");
+			subtitle.className = "card-subtitle mb-2 text-muted";
+			subtitle.innerText = this.subtitle;
+			div.appendChild(subtitle);
+		}
 		let p = document.createElement("p");
 		p.className = "card-text";
 		p.innerText = this.text;
@@ -387,7 +390,7 @@ class Card extends basicUIObject {
 		let a = document.createElement("a");
 		a.href = this.link[1];
 		a.innerText = this.link[0];
-		a.className = "btn btn-primary";
+		a.className = this.image ? "btn btn-primary" : "card-link";
 		div.appendChild(a);
 		card.appendChild(div);
 		span.appendChild(card);
