@@ -23,6 +23,7 @@ let inputCount = 0;
 let buttonCount = 0;
 let tableCount = 0;
 let cardCount = 0;
+let gridCount = 0;
 
 // this function aligns the given element
 function alignContent(element, position) {
@@ -71,6 +72,7 @@ class basicUIObject {
 			wrapper = document.createElement("span");
 			wrapper.id = this.hiddenId;
 		}
+		this.wrapper = wrapper;
 		return wrapper;
 	}
 }
@@ -198,7 +200,7 @@ class Text extends basicUIObject {
 	}
 
 	// this function adds text to the body
-	add() {
+	add(visible = true) {
 		let wrapper = this.wrap();
 		let div = document.createElement("div");
 		div.className = this.classes;
@@ -208,7 +210,7 @@ class Text extends basicUIObject {
 		div.style.color = this.color;
 		this.element = div;
 		wrapper.appendChild(div);
-		document.body.appendChild(wrapper);
+		if (visible) document.body.appendChild(wrapper);
 	}
 }
 
@@ -230,7 +232,7 @@ class Input extends basicUIObject {
 	}
 
 	// this function adds input to the body
-	add() {
+	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
@@ -251,7 +253,7 @@ class Input extends basicUIObject {
 		span.appendChild(input);
 		this.element = input;
 		wrapper.appendChild(span);
-		document.body.appendChild(wrapper);
+		if (visible) document.body.appendChild(wrapper);
 	}
 }
 
@@ -275,7 +277,7 @@ class Button extends basicUIObject {
 	}
 
 	// this function adds the button to the body
-	add() {
+	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
@@ -289,7 +291,7 @@ class Button extends basicUIObject {
 		span.appendChild(button);
 		this.element = button;
 		wrapper.appendChild(span);
-		document.body.appendChild(wrapper);
+		if (visible) document.body.appendChild(wrapper);
 	}
 }
 
@@ -306,7 +308,7 @@ class Table extends basicUIObject {
 	}
 
 	// this function adds table to the body
-	add() {
+	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
@@ -337,7 +339,7 @@ class Table extends basicUIObject {
 		this.element = table;
 		span.appendChild(table);
 		wrapper.appendChild(span);
-		document.body.appendChild(wrapper);
+		if (visible) document.body.appendChild(wrapper);
 	}
 }
 
@@ -356,7 +358,7 @@ class Card extends basicUIObject {
 		this.removed = false;
 	}
 
-	add() {
+	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
@@ -396,7 +398,44 @@ class Card extends basicUIObject {
 		span.appendChild(card);
 		this.element = card;
 		wrapper.appendChild(span);
-		document.body.appendChild(wrapper);
+		if (visible) document.body.appendChild(wrapper);
+	}
+}
+
+class Grid extends basicUIObject {
+	constructor(items, position = "left") {
+		super();
+		this.items = items;
+		this.position = position;
+		this.classes = "";
+		this.id = ""
+		this.hiddenId = "grid-" + gridCount++;
+		this.removed = false;
+	}
+
+	add(visible = true) {
+		let wrapper = this.wrap();
+		let span = document.createElement("span");
+		alignContent(span, this.position);
+		let grid = document.createElement("div");
+		grid.className = "container " + this.classes;
+		grid.id = this.id;
+		this.items.forEach((itemRow, index) => {
+			let row = document.createElement("div");
+			row.className = "row";
+			row.style.marginBottom = "2vh";
+			itemRow.forEach((item, index) => {
+				let col = document.createElement("div");
+				col.className = "col";
+				col.appendChild(item.wrapper);
+				row.appendChild(col);
+			});
+			grid.appendChild(row);
+		});
+		span.appendChild(grid);
+		this.element = grid;
+		wrapper.appendChild(span);
+		if (visible) document.body.appendChild(wrapper);
 	}
 }
 
@@ -473,8 +512,15 @@ function createTable(firstRow, rows, position = "left") {
 	return table;
 }
 
+// this function creates a card
 function createCard(title, text, link, image = "", position = "left") {
 	let card = new Card(title, text, link, image, position);
 	card.add();
 	return card;
+}
+
+function createGrid(items, position = "left") {
+	let grid = new Grid(items, position);
+	grid.add();
+	return grid;
 }
