@@ -22,7 +22,9 @@ let textCount = 0;
 let inputCount = 0;
 let buttonCount = 0;
 let tableCount = 0;
+let cardCount = 0;
 
+// this function aligns the given element
 function alignContent(element, position) {
 	element.style.display = "flex";
 	if (position === "left") {
@@ -36,7 +38,7 @@ function alignContent(element, position) {
 	}
 }
 
-class Object {
+class basicUIObject {
 	// this function removes element from the body
 	remove() {
 		this.element.remove();
@@ -57,6 +59,19 @@ class Object {
 		} else {
 			throw "Add element with .add method first";
 		}
+	}
+
+	// this function wraps the element
+	wrap() {
+		let wrapper;
+		if (this.removed) {
+			wrapper = document.getElementById(this.hiddenId);
+			this.removed = false;
+		} else {
+			wrapper = document.createElement("span");
+			wrapper.id = this.hiddenId;
+		}
+		return wrapper;
 	}
 }
 
@@ -170,7 +185,7 @@ class navBar {
 	}
 }
 
-class Text extends Object {
+class Text extends basicUIObject {
 	constructor(text, position) {
 		super();
 		this.text = text;
@@ -184,14 +199,7 @@ class Text extends Object {
 
 	// this function adds text to the body
 	add() {
-		let wrapper;
-		if (this.removed) {
-			wrapper = document.getElementById(this.hiddenId);
-			this.removed = false;
-		} else {
-			wrapper = document.createElement("span");
-			wrapper.id = this.hiddenId;
-		}
+		let wrapper = this.wrap();
 		let div = document.createElement("div");
 		div.className = this.classes;
 		div.id = this.id;
@@ -204,7 +212,7 @@ class Text extends Object {
 	}
 }
 
-class Input extends Object {
+class Input extends basicUIObject {
 	constructor(type, placeholder) {
 		super();
 		this.type = type;
@@ -221,16 +229,9 @@ class Input extends Object {
 		this.removed = false;
 	}
 
-	// this function adds element to the body
+	// this function adds input to the body
 	add() {
-		let wrapper;
-		if (this.removed) {
-			wrapper = document.getElementById(this.hiddenId);
-			this.removed = false;
-		} else {
-			wrapper = document.createElement("span");
-			wrapper.id = this.hiddenId;
-		}
+		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
 		let input = document.createElement("input");
@@ -254,7 +255,7 @@ class Input extends Object {
 	}
 }
 
-class Button extends Object {
+class Button extends basicUIObject {
 	constructor(text, type, position) {
 		super();
 		this.text = text;
@@ -275,14 +276,7 @@ class Button extends Object {
 
 	// this function adds the button to the body
 	add() {
-		let wrapper;
-		if (this.removed) {
-			wrapper = document.getElementById(this.hiddenId);
-			this.removed = false;
-		} else {
-			wrapper = document.createElement("span");
-			wrapper.id = this.hiddenId;
-		}
+		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
 		let button = document.createElement("button");
@@ -299,7 +293,7 @@ class Button extends Object {
 	}
 }
 
-class Table extends Object {
+class Table extends basicUIObject {
 	constructor(firstRow, rows, position) {
 		super();
 		this.firstRow = firstRow;
@@ -313,17 +307,12 @@ class Table extends Object {
 
 	// this function adds table to the body
 	add() {
-		let wrapper;
-		if (this.removed) {
-			wrapper = document.getElementById(this.hiddenId);
-		} else {
-			wrapper = document.createElement("span");
-			wrapper.id = this.hiddenId;
-		}
+		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		alignContent(span, this.position);
 		let table = document.createElement("table");
-		table.className = "table";
+		table.className = "table " + this.classes;
+		table.id = this.id;
 		let thead = document.createElement("thead");
 		let trHead = document.createElement("tr");
 		this.firstRow.forEach((element, index) => {
@@ -347,6 +336,62 @@ class Table extends Object {
 		table.appendChild(tbody);
 		this.element = table;
 		span.appendChild(table);
+		wrapper.appendChild(span);
+		document.body.appendChild(wrapper);
+	}
+}
+
+class Card extends basicUIObject {
+	constructor(title, text, link, image, position) {
+		super();
+		this.title = title;
+		this.text = text;
+		this.link = link;
+		this.image = image;
+		this.position = position;
+		this.classes = "";
+		this.id = "";
+		this.hiddenId = "card" + cardCount++;
+		this.removed = false;
+	}
+
+	add() {
+		let wrapper = this.wrap();
+		let span = document.createElement("span");
+		alignContent(span, this.position);
+		let card = document.createElement("div");
+		card.className = "card " + this.classes;
+		card.id = this.id;
+		card.style.width = "18rem";
+		if (this.image !== "") {
+			let image = document.createElement("img");
+			image.src = this.image ? this.image : "...";
+			image.class = "card-img-top";
+			image.alt = "Card Image";
+			card.appendChild(image);
+		} else {
+			let span = document.createElement("span");
+			span.innerHTML = `<svg class="bd-placeholder-img card-img-top" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Image Not Available</title><rect width="100%" height="100%" fill="#868e96"></rect><text x="18%" y="50%" fill="#dee2e6" dy=".3em">Image Not Available</text></svg>`;
+			card.appendChild(span);
+		}
+		let div = document.createElement("div");
+		div.className = "card-body";
+		let h5 = document.createElement("h5");
+		h5.className = "card-title";
+		h5.innerText = this.title;
+		div.appendChild(h5);
+		let p = document.createElement("p");
+		p.className = "card-text";
+		p.innerText = this.text;
+		div.appendChild(p);
+		let a = document.createElement("a");
+		a.href = this.link[1];
+		a.innerText = this.link[0];
+		a.className = "btn btn-primary";
+		div.appendChild(a);
+		card.appendChild(div);
+		span.appendChild(card);
+		this.element = card;
 		wrapper.appendChild(span);
 		document.body.appendChild(wrapper);
 	}
@@ -423,4 +468,10 @@ function createTable(firstRow, rows, position = "left") {
 	let table = new Table(firstRow, rows, position);
 	table.add();
 	return table;
+}
+
+function createCard(title, text, link, image = "", position = "left") {
+	let card = new Card(title, text, link, image, position);
+	card.add();
+	return card;
 }
