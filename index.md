@@ -120,7 +120,7 @@ navbar.addItem("input", ["text", "Type something"], "right");
 navbar.addItem("button", ["primary", "Button"], "right");
 
 // adding a dropdown
-navbar.addItem("dropdown", ["Items", ["Hello", "World"]]);
+navbar.addItem("dropdown", ["Items", [["Hello", "/hello"], ["World", "/world"]]]);
 ```
 Full code:
 ```html
@@ -158,7 +158,7 @@ Full code:
         navbar.addItem("button", ["primary", "Button"], "right");
 
         // adding a dropdown
-        navbar.addItem("dropdown", ["Items", ["Hello", "World"]]);
+        navbar.addItem("dropdown", ["Items", [["Hello", "/hello"], ["World", "/world"]]]);
     </script>
 </body>
 </html>
