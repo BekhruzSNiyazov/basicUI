@@ -67,7 +67,15 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
     - `input` for input fields
     - `button` for buttons
     - `dropdown` for dropdowns
-- `properties` is for the properties of the item
+- `properties` is for the properties of the item. Position can take several forms depending on the role of the item:
+    - `displayed text` when role is `home`
+    - an array with 3 items when role is `logo`:
+        - `path to the source of the image`
+        - `width of the image`
+        - `height of the image`
+    - an array with 2 items when role is `link`:
+        - `displayed text`
+        - `link`
 - `position` represents the position of the item on the navbar (`left` or `right`)
 - `classes` can be used for accessing from JavaScript or CSS
 - `id` same thing as `classes` with one difference: `id`s are unique.
