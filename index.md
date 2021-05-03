@@ -122,7 +122,7 @@ Full code:
 <body>
     <!-- importing basicUI -->
     <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
-    <script>
+    <script type="text/javascript">
         // creating the navbar
         let navbar =  createNavBar("dark");
         // adding a home link to the navbar
