@@ -122,8 +122,8 @@ class navBar {
 			properties[1].forEach((text, index) => {
 				let element = document.createElement("a");
 				element.className = "dropdown-item";
-				element.href = "#";
-				element.innerText = text;
+				element.href = text[1];
+				element.innerText = text[0];
 				let listItemElement = document.createElement("li");
 				listItemElement.appendChild(element);
 				ul.appendChild(listItemElement);
