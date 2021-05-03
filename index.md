@@ -82,9 +82,65 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
         - `placeholder` of the input field
     - an array of 2 items when role is `button`:
         - `type` of button (`primary`, `secondary`, `info`, etc.; See [this](https://getbootstrap.com/docs/5.0/components/buttons/#examples) link for all types)
+        - `displayed text`
     - an array of 2 items when role is `dropdown`:
         - `displayed text`
         - an array of infinite number of dropdown items
-- `position` represents the position of the item on the navbar (`left` or `right`)
-- `classes` can be used for accessing from JavaScript or CSS
-- `id` same thing as `classes` with one difference: `id`s are unique.
+- `position` represents the position of the item on the navbar (`left` or `right`); it is set to `left` by default
+- `classes` can be used for accessing from JavaScript or CSS; it is set to `""` by default
+- `id` same thing as `classes` with one difference: `id`s are unique; it is set to `""` by default
+
+<hr>
+
+### Examples
+This code creates a dark navbar with 7 items: `home`, `logo`, `link`, `text`, `input`, `button`, `dropdown`:
+```javascript
+// creating the navbar
+let navbar =  createNavBar("dark");
+// adding a home link to the navbar
+navbar.addItem("home", "Home");
+// adding a logo to the navbar
+navbar.addItem("logo", ["images/logo.png", 175, 50]);
+// adding a link to another page
+navbar.addItem("link", ["Another Page", "/another"]);
+// adding some text on the right side of the navbar
+navbar.addItem("Just Text", "right");
+// adding an input field on the right side of the navbar
+navbar.addItem("input", ["text", "Type something"], "right");
+// adding a button on the right side of the navbar
+navbar.addItem("button", ["primary", "Button"]);
+// adding a dropdown
+navbar.addItem("dropdown", ["Items", "Hello", "World"]);
+```
+Full code:
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <!-- importing basicUI -->
+    <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI/src/basicUI.js" crossorigin="anonymous"></script>
+    <script>
+        // creating the navbar
+        let navbar =  createNavBar("dark");
+        // adding a home link to the navbar
+        navbar.addItem("home", "Home");
+        // adding a logo to the navbar
+        navbar.addItem("logo", ["images/logo.png", 175, 50]);
+        // adding a link to another page
+        navbar.addItem("link", ["Another Page", "/another"]);
+        // adding some text on the right side of the navbar
+        navbar.addItem("Just Text", "right");
+        // adding an input field on the right side of the navbar
+        navbar.addItem("input", ["text", "Type something"], "right");
+        // adding a button on the right side of the navbar
+        navbar.addItem("button", ["primary", "Button"]);
+        // adding a dropdown
+        navbar.addItem("dropdown", ["Items", "Hello", "World"]);
+    </script>
+</body>
+</html>
+```
+Result:
