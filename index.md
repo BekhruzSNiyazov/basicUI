@@ -166,6 +166,6 @@ Full code:
 </html>
 ```
 Result:
-![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=b3a97337-c2c2-4f83-a620-8de8fb73ec1f)
+![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=740f81e8-4c7f-4355-9b95-331961d1ec65)
 
 <hr>
