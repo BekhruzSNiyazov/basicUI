@@ -144,4 +144,4 @@ Full code:
 </html>
 ```
 Result:
-![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=401f0ced-4472-4f81-8657-3c7bcd79c79a)
+![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=b3a97337-c2c2-4f83-a620-8de8fb73ec1f)
