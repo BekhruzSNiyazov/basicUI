@@ -69,13 +69,22 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
     - `dropdown` for dropdowns
 - `properties` is for the properties of the item. Position can take several forms depending on the role of the item:
     - `displayed text` when role is `home`
-    - an array with 3 items when role is `logo`:
+    - an array of 3 items when role is `logo`:
         - `path to the source of the image`
         - `width of the image`
         - `height of the image`
-    - an array with 2 items when role is `link`:
+    - an array of 2 items when role is `link`:
         - `displayed text`
         - `link`
+    - `displayed text` when role is `text`
+    - an array of 2 items when role is `input`:
+        - `type` of the input field (standard HTML input types: `text`, `password`, etc.)
+        - `placeholder` of the input field
+    - an array of 2 items when role is `button`:
+        - `type` of button (`primary`, `secondary`, `info`, etc.; See [this](https://getbootstrap.com/docs/5.0/components/buttons/#examples) link for all types)
+    - an array of 2 items when role is `dropdown`:
+        - `displayed text`
+        - an array of infinite number of dropdown items
 - `position` represents the position of the item on the navbar (`left` or `right`)
 - `classes` can be used for accessing from JavaScript or CSS
 - `id` same thing as `classes` with one difference: `id`s are unique.
