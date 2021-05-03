@@ -31,7 +31,7 @@ You can create a navbar with a `createNavBar` function. `createNavBar` takes 2 a
 
 <hr>
 
-#### Examples
+#### Example
 This code creates a default light navbar with a light background
 ```javascript
 createNavBar();
@@ -92,7 +92,7 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
 
 <hr>
 
-### Examples
+### Example
 This code creates a dark navbar with 7 items: `home`, `logo`, `link`, `text`, `input`, `button`, `dropdown`:
 ```javascript
 // creating the navbar
