@@ -21,6 +21,7 @@ let fontColor = "";
 let textCount = 0;
 let inputCount = 0;
 let buttonCount = 0;
+let tableCount = 0;
 
 function alignContent(element, position) {
 	element.style.display = "flex";
@@ -32,6 +33,30 @@ function alignContent(element, position) {
 		element.style.justifyContent = "center";
 	} else {
 		throw `Position should be "left" or "right" or "center"`;
+	}
+}
+
+class Object {
+	// this function removes element from the body
+	remove() {
+		this.element.remove();
+		this.element = null;
+		this.removed = true;
+	}
+
+	// this function updates the element
+	update() {
+		this.remove();
+		this.add();
+	}
+
+	// this function sets the style to the element
+	setStyle(style) {
+		if (this.element) {
+			this.element.style.cssText += style;
+		} else {
+			throw "Add element with .add method first";
+		}
 	}
 }
 
@@ -145,8 +170,9 @@ class navBar {
 	}
 }
 
-class Text {
+class Text extends Object {
 	constructor(text, position) {
+		super();
 		this.text = text;
 		this.position = position;
 		this.color = ""
@@ -176,32 +202,11 @@ class Text {
 		wrapper.appendChild(div);
 		document.body.appendChild(wrapper);
 	}
-
-	// this function removes element from the body
-	remove() {
-		this.element.remove();
-		this.element = null;
-		this.removed = true;
-	}
-
-	// this function updates the element
-	update() {
-		this.remove();
-		this.add();
-	}
-
-	// this function sets the style to the element
-	setStyle(style) {
-		if (this.element) {
-			this.element.style.cssText += style;
-		} else {
-			throw "Add element with .add method first";
-		}
-	}
 }
 
-class Input {
+class Input extends Object {
 	constructor(type, placeholder) {
+		super();
 		this.type = type;
 		this.placeholder = placeholder;
 		this.value = "";
@@ -247,32 +252,11 @@ class Input {
 		wrapper.appendChild(span);
 		document.body.appendChild(wrapper);
 	}
-
-	// this function removes element from the body
-	remove() {
-		this.element.remove();
-		this.element = null;
-		this.removed = true;
-	}
-
-	// this function updates the element
-	update() {
-		this.remove();
-		this.add();
-	}
-
-	// this function sets the style to the element
-	setStyle(style) {
-		if (this.element) {
-			this.element.style.cssText += style;
-		} else {
-			throw "Add element with .add method first";
-		}
-	}
 }
 
-class Button {
+class Button extends Object {
 	constructor(text, type, position) {
+		super();
 		this.text = text;
 		this.type = type;
 		this.position = position;
@@ -300,7 +284,6 @@ class Button {
 			wrapper.id = this.hiddenId;
 		}
 		let span = document.createElement("span");
-		span.style.display = "inline";
 		alignContent(span, this.position);
 		let button = document.createElement("button");
 		button.className = "btn btn-" + this.type + " " + this.classes;
@@ -314,27 +297,58 @@ class Button {
 		wrapper.appendChild(span);
 		document.body.appendChild(wrapper);
 	}
+}
 
-	// this function removes the element
-	remove() {
-		this.element.remove();
-		this.element = null;
-		this.removed = true;
+class Table extends Object {
+	constructor(firstRow, rows, position) {
+		super();
+		this.firstRow = firstRow;
+		this.rows = rows;
+		this.position = position;
+		this.classes = "";
+		this.id = "";
+		this.hiddenId = "table" + tableCount++;
+		this.removed = false;
 	}
 
-	// this function updates the element
-	update() {
-		this.remove();
-		this.add();
-	}
-
-	// this function sets the style of the element
-	setStyle(style) {
-		if (this.element) {
-			this.element.style.cssText += style;
+	// this function adds table to the body
+	add() {
+		let wrapper;
+		if (this.removed) {
+			wrapper = document.getElementById(this.hiddenId);
 		} else {
-			throw "Add element with .add method first";
+			wrapper = document.createElement("span");
+			wrapper.id = this.hiddenId;
 		}
+		let span = document.createElement("span");
+		alignContent(span, this.position);
+		let table = document.createElement("table");
+		table.className = "table";
+		let thead = document.createElement("thead");
+		let trHead = document.createElement("tr");
+		this.firstRow.forEach((element, index) => {
+			let th = document.createElement("th");
+			th.scope = "col";
+			th.innerText = element;
+			trHead.appendChild(th);
+		});
+		thead.appendChild(trHead);
+		table.appendChild(thead);
+		let tbody = document.createElement("tbody");
+		this.rows.forEach((row, index) => {
+			let tr = document.createElement("tr");
+			row.forEach((element, i) => {
+				let td = document.createElement("td");
+				td.innerText = element;
+				tr.appendChild(td);
+			});
+			tbody.appendChild(tr);
+		});
+		table.appendChild(tbody);
+		this.element = table;
+		span.appendChild(table);
+		wrapper.appendChild(span);
+		document.body.appendChild(wrapper);
 	}
 }
 
@@ -402,4 +416,11 @@ function addButton(text, type, position = "left") {
 	let button = new Button(text, type, position);
 	button.add();
 	return button;
+}
+
+// this function creates a table
+function createTable(firstRow, rows, position = "left") {
+	let table = new Table(firstRow, rows, position);
+	table.add();
+	return table;
 }
