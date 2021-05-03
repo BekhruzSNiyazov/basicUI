@@ -76,7 +76,7 @@ class basicUIObject {
 }
 
 class navBar {
-	constructor(theme, backgroundColor) {
+	constructor(theme = "light", backgroundColor = "") {
 		this.theme = theme;
 		this.backgroundColor = backgroundColor;
 		this.src = `<div class="container-fluid">
@@ -93,7 +93,7 @@ class navBar {
 	}
 
 	// this function adds the navbar to the body
-	addSelf() {
+	add() {
 		let nav = document.createElement("nav");
 		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme}`;
 		nav.innerHTML = this.src;
@@ -186,14 +186,14 @@ class navBar {
 }
 
 class Text extends basicUIObject {
-	constructor(text, position) {
+	constructor(text, position = "left") {
 		super();
 		this.text = text;
 		this.position = position;
 		this.color = ""
 		this.classes = "";
 		this.id = "";
-		this.hiddenId = "text" + textCount++;
+		this.hiddenId = "text-" + textCount++;
 		this.removed = false;
 	}
 
@@ -225,7 +225,7 @@ class Input extends basicUIObject {
 		this.borderColor = "";
 		this.classes = "";
 		this.id = "";
-		this.hiddenId = "input" + inputCount++;
+		this.hiddenId = "input-" + inputCount++;
 		this.removed = false;
 	}
 
@@ -256,7 +256,7 @@ class Input extends basicUIObject {
 }
 
 class Button extends basicUIObject {
-	constructor(text, type, position) {
+	constructor(text, type, position = "left") {
 		super();
 		this.text = text;
 		this.type = type;
@@ -266,7 +266,7 @@ class Button extends basicUIObject {
 		this.borderColor = "";
 		this.classes = "";
 		this.id = "";
-		this.hiddenId = "button" + buttonCount++;
+		this.hiddenId = "button-" + buttonCount++;
 		this.removed = false;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
 		if (!types.includes(" " + type)) {
@@ -294,14 +294,14 @@ class Button extends basicUIObject {
 }
 
 class Table extends basicUIObject {
-	constructor(firstRow, rows, position) {
+	constructor(firstRow, rows, position = "left") {
 		super();
 		this.firstRow = firstRow;
 		this.rows = rows;
 		this.position = position;
 		this.classes = "";
 		this.id = "";
-		this.hiddenId = "table" + tableCount++;
+		this.hiddenId = "table-" + tableCount++;
 		this.removed = false;
 	}
 
@@ -342,7 +342,7 @@ class Table extends basicUIObject {
 }
 
 class Card extends basicUIObject {
-	constructor(title, text, link, image, position) {
+	constructor(title, text, link, image = "", position = "left") {
 		super();
 		this.title = title;
 		this.subtitle = "";
@@ -352,7 +352,7 @@ class Card extends basicUIObject {
 		this.position = position;
 		this.classes = "";
 		this.id = "";
-		this.hiddenId = "card" + cardCount++;
+		this.hiddenId = "card-" + cardCount++;
 		this.removed = false;
 	}
 
@@ -390,7 +390,7 @@ class Card extends basicUIObject {
 		let a = document.createElement("a");
 		a.href = this.link[1];
 		a.innerText = this.link[0];
-		a.className = this.image ? "btn btn-primary" : "card-link";
+		a.className = this.link[2] === "button" ? "btn btn-primary" : "card-link";
 		div.appendChild(a);
 		card.appendChild(div);
 		span.appendChild(card);
@@ -408,7 +408,7 @@ function setTitle(title) {
 // function for creating a navbar
 function createNavBar(theme = "light", backgroundColor = "") {
 	let nav = new navBar(theme, backgroundColor);
-	nav.addSelf();
+	nav.add();
 	return nav;
 }
 
