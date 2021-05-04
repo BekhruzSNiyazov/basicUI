@@ -10,6 +10,9 @@ setColor("white");
 
 // adding text
 let text = addText("Just Text", "center");
+// adding a class to the text element
+text.classes = "testClass";
+text.update();
 
 // adding an input field
 let input = addInput("text", "hello, world");
