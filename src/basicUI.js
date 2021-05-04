@@ -41,6 +41,7 @@ function alignContent(element, position) {
 
 class basicUIObject {
 	// this function removes element from the body
+	hiddenId;
 	remove() {
 		this.element.remove();
 		this.element = null;
@@ -75,6 +76,8 @@ class basicUIObject {
 		this.wrapper = wrapper;
 		return wrapper;
 	}
+
+	add() {}
 }
 
 class navBar extends basicUIObject {
@@ -526,6 +529,7 @@ function createCard(title, text, link, image = "", position = "left") {
 	return card;
 }
 
+// this function creates a gird
 function createGrid(items, position = "left") {
 	let grid = new Grid(items, position);
 	grid.add();

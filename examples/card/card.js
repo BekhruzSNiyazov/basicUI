@@ -11,8 +11,6 @@ addNewLine();
 let card = createCard("Title","Hello World. This is a test card.", ["Find out more", "#", "link"]);
 // centering the card
 card.position = "center";
-// changing the theme of the card
-card.theme = "dark";
 // adding a subtitle
 card.subtitle = "Subtitle"
 card.update();
