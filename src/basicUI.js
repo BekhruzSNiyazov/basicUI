@@ -423,10 +423,10 @@ class Grid extends basicUIObject {
 		this.items.forEach((itemRow, index) => {
 			let row = document.createElement("div");
 			row.className = "row";
-			row.style.marginBottom = "2vh";
 			itemRow.forEach((item, index) => {
 				let col = document.createElement("div");
 				col.className = "col";
+				col.style.marginBottom = "2vh";
 				col.appendChild(item.wrapper);
 				row.appendChild(col);
 			});
