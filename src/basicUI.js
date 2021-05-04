@@ -13,7 +13,7 @@ bundleLink.crossOrigin = "anonymous";
 document.head.appendChild(bundleLink);
 // increasing the font size of each element
 let style = document.createElement("style");
-style.innerHTML = `* { font-size: 1.2rem !important; } .short-input { width: 20vw }`;
+style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) { font-size: 1.2rem !important; } .short-input { width: 20vw }`;
 document.head.appendChild(style);
 
 // the font color
@@ -77,8 +77,9 @@ class basicUIObject {
 	}
 }
 
-class navBar {
+class navBar extends basicUIObject {
 	constructor(theme = "light", backgroundColor = "") {
+		super();
 		this.theme = theme;
 		this.backgroundColor = backgroundColor;
 		this.src = `<div class="container-fluid">
@@ -119,6 +120,7 @@ class navBar {
 			navTitle.href = href;
 		}
 		navTitle.innerText = title;
+		this.title = [title, href];
 	}
 
 	// this function adds an item to the navbar
@@ -352,10 +354,14 @@ class Card extends basicUIObject {
 		this.link = link;
 		this.image = image;
 		this.position = position;
+		this.theme = "light";
 		this.classes = "";
 		this.id = "";
 		this.hiddenId = "card-" + cardCount++;
 		this.removed = false;
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "dark" or "light"`;
+		}
 	}
 
 	add(visible = true) {
@@ -363,7 +369,7 @@ class Card extends basicUIObject {
 		let span = document.createElement("span");
 		alignContent(span, this.position);
 		let card = document.createElement("div");
-		card.className = "card " + this.classes;
+		card.className = "card mb-3 " + (this.theme === "light" ? "text-dark bg-light " : "text-light bg-dark") + this.classes;
 		card.id = this.id;
 		card.style.width = "18rem";
 		if (this.image !== "") {
@@ -479,7 +485,8 @@ function addHTML(code) {
 
 // this function adds a header to the body
 function addHeader(text, position = "left", size = 6) {
-	let header = document.createElement("h" + (7 - size));
+	let htmlHeader = "h" + (7 - size);
+	let header = document.createElement(htmlHeader);
 	header.innerText = text;
 	header.style.textAlign = position;
 	document.body.appendChild(header);
