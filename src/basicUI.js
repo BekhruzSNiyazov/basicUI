@@ -40,8 +40,15 @@ function alignContent(element, position) {
 }
 
 class basicUIObject {
-	// this function removes element from the body
 	hiddenId;
+
+	constructor() {
+		this.classes = "";
+		this.id = "";
+		this.removed = false;
+	}
+
+	// this function removes element from the body
 	remove() {
 		this.element.remove();
 		this.element = null;
@@ -198,10 +205,7 @@ class Text extends basicUIObject {
 		this.text = text;
 		this.position = position;
 		this.color = ""
-		this.classes = "";
-		this.id = "";
 		this.hiddenId = "text-" + textCount++;
-		this.removed = false;
 	}
 
 	// this function adds text to the body
@@ -230,10 +234,7 @@ class Input extends basicUIObject {
 		this.color = "";
 		this.backgroundColor = "";
 		this.borderColor = "";
-		this.classes = "";
-		this.id = "";
 		this.hiddenId = "input-" + inputCount++;
-		this.removed = false;
 	}
 
 	// this function adds input to the body
@@ -271,10 +272,7 @@ class Button extends basicUIObject {
 		this.color = "";
 		this.backgroundColor = "";
 		this.borderColor = "";
-		this.classes = "";
-		this.id = "";
 		this.hiddenId = "button-" + buttonCount++;
-		this.removed = false;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
 		if (!types.includes(" " + type)) {
 			throw `The type ${type} was not recognized. Here is the list of available types:${types}`;
@@ -306,10 +304,7 @@ class Table extends basicUIObject {
 		this.firstRow = firstRow;
 		this.rows = rows;
 		this.position = position;
-		this.classes = "";
-		this.id = "";
 		this.hiddenId = "table-" + tableCount++;
-		this.removed = false;
 	}
 
 	// this function adds table to the body
@@ -358,10 +353,7 @@ class Card extends basicUIObject {
 		this.image = image;
 		this.position = position;
 		this.theme = "light";
-		this.classes = "";
-		this.id = "";
 		this.hiddenId = "card-" + cardCount++;
-		this.removed = false;
 		if (!["light", "dark"].includes(this.theme)) {
 			throw `Theme can only be "dark" or "light"`;
 		}
@@ -416,10 +408,7 @@ class Grid extends basicUIObject {
 		super();
 		this.items = items;
 		this.position = position;
-		this.classes = "";
-		this.id = ""
 		this.hiddenId = "grid-" + gridCount++;
-		this.removed = false;
 	}
 
 	add(visible = true) {
