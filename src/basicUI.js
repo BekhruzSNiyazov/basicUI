@@ -15,28 +15,35 @@ document.head.appendChild(bundleLink);
 let style = document.createElement("style");
 style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) { font-size: 1.2rem !important; } .short-input { width: 20vw }`;
 document.head.appendChild(style);
+let body = document.body;
+body.className = "bg-white";
 
 // the font color
 let fontColor = "";
+
+// the counting variables
 let textCount = 0;
+let headerCount = 0;
 let inputCount = 0;
 let buttonCount = 0;
 let tableCount = 0;
 let cardCount = 0;
 let gridCount = 0;
 
-// this function aligns the given element
-function alignContent(element, position) {
-	element.style.display = "flex";
-	if (position === "left") {
-		element.style.justifyContent = "flex-start";
-	} else if (position === "right") {
-		element.style.justifyContent = "flex-end";
-	} else if (position === "center") {
-		element.style.justifyContent = "center";
-	} else {
-		throw `Position should be "left" or "right" or "center"`;
-	}
+// current theme
+let light = true;
+
+// list of all elements
+let elements = [];
+
+// the dark background color
+let darkBackgroundColor = "#0f0f0f";
+
+// this function sets classes to the element by the theme
+function manageTheme(element, theme) {
+	if (theme === "light") element.className += " text-dark bg-light";
+	else if (theme === "dark") element.className += " text-light bg-dark";
+	else throw `Theme can only be "light" or "dark"`;
 }
 
 class basicUIObject {
@@ -50,7 +57,7 @@ class basicUIObject {
 
 	// this function removes element from the body
 	remove() {
-		this.element.remove();
+		this.wrapper.removeChild(this.outerElement);
 		this.element = null;
 		this.removed = true;
 	}
@@ -58,7 +65,7 @@ class basicUIObject {
 	// this function updates the element
 	update() {
 		this.remove();
-		this.add();
+		this.add(false);
 	}
 
 	// this function sets the style to the element
@@ -80,8 +87,24 @@ class basicUIObject {
 			wrapper = document.createElement("span");
 			wrapper.id = this.hiddenId;
 		}
+		elements = [...elements, this];
 		this.wrapper = wrapper;
 		return wrapper;
+	}
+
+	// this function aligns the given element
+	alignContent(element, position) {
+		element.style.display = "flex";
+		if (position === "left") {
+			element.style.justifyContent = "flex-start";
+		} else if (position === "right") {
+			element.style.justifyContent = "flex-end";
+		} else if (position === "center") {
+			element.style.justifyContent = "center";
+		} else {
+			throw `Position should be "left" or "right" or "center"`;
+		}
+		this.outerElement = element;
 	}
 
 	add() {}
@@ -103,18 +126,23 @@ class navBar extends basicUIObject {
                             <div class="d-flex navbar-nav" id="items-list-right"></div>
                         </div>
                     </div>`;
+		this.items = [];
+		this.hiddenId = "nav";
 	}
 
 	// this function adds the navbar to the body
-	add() {
+	add(visible = true) {
+		let wrapper = this.wrap();
 		let nav = document.createElement("nav");
 		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme}`;
 		nav.innerHTML = this.src;
 		if (this.backgroundColor !== "") {
 			nav.style.setProperty("background-color", this.backgroundColor, "important");
 		}
-		document.body.appendChild(nav);
+		wrapper.appendChild(nav);
 		this.element = nav;
+		this.outerElement = this.element;
+		if (visible) body.appendChild(wrapper);
 	}
 
 	// this function sets the background color of the navbar
@@ -135,6 +163,7 @@ class navBar extends basicUIObject {
 
 	// this function adds an item to the navbar
 	addItem(role, properties, position = "left", classes = "", id = "") {
+		this.items = [...this.items, [role, properties, position, classes, id]];
 		let list, li;
 		if (position === "left") {
 			list = document.getElementById("items-list");
@@ -188,15 +217,6 @@ class navBar extends basicUIObject {
 		list.appendChild(li);
 		return li;
 	}
-
-	setStyle(style) {
-		if (this.element) {
-			this.element.style.cssText += style;
-		}
-		else {
-			throw "Add element with .add method first";
-		}
-	}
 }
 
 class Text extends basicUIObject {
@@ -204,7 +224,8 @@ class Text extends basicUIObject {
 		super();
 		this.text = text;
 		this.position = position;
-		this.color = ""
+		this.color = "";
+		this.theme = "light";
 		this.hiddenId = "text-" + textCount++;
 	}
 
@@ -213,13 +234,40 @@ class Text extends basicUIObject {
 		let wrapper = this.wrap();
 		let div = document.createElement("div");
 		div.className = this.classes;
+		manageTheme(div, this.theme);
 		div.id = this.id;
 		div.innerText = this.text;
 		div.style.textAlign = this.position;
 		div.style.color = this.color;
 		this.element = div;
 		wrapper.appendChild(div);
-		if (visible) document.body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
+	}
+}
+
+class Header extends basicUIObject {
+	constructor(text, size, position) {
+		super();
+		this.text = text;
+		this.size = size;
+		this.position = position;
+		this.theme = "light";
+		this.hiddenId = "header-" + headerCount++;
+	}
+
+	// this function adds the header
+	add(visible = true) {
+		let wrapper = this.wrap();
+		let htmlHeader = "h" + (7 - this.size);
+		let header = document.createElement(htmlHeader);
+		header.className = this.classes;
+		manageTheme(header, this.theme);
+		header.id = this.id;
+		header.innerText = this.text;
+		header.style.textAlign = this.position;
+		this.element = header;
+		wrapper.appendChild(header);
+		if (this.visible) body.appendChild(wrapper);
 	}
 }
 
@@ -234,6 +282,7 @@ class Input extends basicUIObject {
 		this.color = "";
 		this.backgroundColor = "";
 		this.borderColor = "";
+		this.theme = "light";
 		this.hiddenId = "input-" + inputCount++;
 	}
 
@@ -241,9 +290,10 @@ class Input extends basicUIObject {
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
-		alignContent(span, this.position);
+		this.alignContent(span, this.position);
 		let input = document.createElement("input");
 		input.className = "form-control " + this.classes;
+		manageTheme(input, this.theme);
 		input.id = this.id;
 		input.type = this.type;
 		input.placeholder = this.placeholder;
@@ -259,7 +309,7 @@ class Input extends basicUIObject {
 		span.appendChild(input);
 		this.element = input;
 		wrapper.appendChild(span);
-		if (visible) document.body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
 	}
 }
 
@@ -272,6 +322,8 @@ class Button extends basicUIObject {
 		this.color = "";
 		this.backgroundColor = "";
 		this.borderColor = "";
+		this.theme = "light";
+		this.onclick = null;
 		this.hiddenId = "button-" + buttonCount++;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
 		if (!types.includes(" " + type)) {
@@ -283,18 +335,20 @@ class Button extends basicUIObject {
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
-		alignContent(span, this.position);
+		this.alignContent(span, this.position);
 		let button = document.createElement("button");
 		button.className = "btn btn-" + this.type + " " + this.classes;
+		if (!this.type) manageTheme(button, this.theme);
 		button.id = this.id;
 		button.innerText = this.text;
 		button.style.color = this.color;
 		button.style.backgroundColor = this.backgroundColor;
 		button.style.borderColor = this.borderColor;
+		button.onclick = this.onclick;
 		span.appendChild(button);
 		this.element = button;
 		wrapper.appendChild(span);
-		if (visible) document.body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
 	}
 }
 
@@ -304,6 +358,7 @@ class Table extends basicUIObject {
 		this.firstRow = firstRow;
 		this.rows = rows;
 		this.position = position;
+		this.theme = "light";
 		this.hiddenId = "table-" + tableCount++;
 	}
 
@@ -311,9 +366,10 @@ class Table extends basicUIObject {
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
-		alignContent(span, this.position);
+		this.alignContent(span, this.position);
 		let table = document.createElement("table");
 		table.className = "table " + this.classes;
+		manageTheme(table, this.theme);
 		table.id = this.id;
 		let thead = document.createElement("thead");
 		let trHead = document.createElement("tr");
@@ -339,7 +395,7 @@ class Table extends basicUIObject {
 		this.element = table;
 		span.appendChild(table);
 		wrapper.appendChild(span);
-		if (visible) document.body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
 	}
 }
 
@@ -362,9 +418,10 @@ class Card extends basicUIObject {
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
-		alignContent(span, this.position);
+		this.alignContent(span, this.position);
 		let card = document.createElement("div");
-		card.className = "card mb-3 " + (this.theme === "light" ? "text-dark bg-light " : "text-light bg-dark") + this.classes;
+		card.className = "card mb-3 " + this.classes;
+		manageTheme(card, this.theme);
 		card.id = this.id;
 		card.style.width = "18rem";
 		if (this.image !== "") {
@@ -399,7 +456,7 @@ class Card extends basicUIObject {
 		span.appendChild(card);
 		this.element = card;
 		wrapper.appendChild(span);
-		if (visible) document.body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
 	}
 }
 
@@ -408,22 +465,26 @@ class Grid extends basicUIObject {
 		super();
 		this.items = items;
 		this.position = position;
+		this.theme = "light";
 		this.hiddenId = "grid-" + gridCount++;
 	}
 
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let span = document.createElement("span");
-		alignContent(span, this.position);
+		this.alignContent(span, this.position);
 		let grid = document.createElement("div");
 		grid.className = "container " + this.classes;
+		grid.style.backgroundColor = this.theme === "dark" ? darkBackgroundColor : "white";
 		grid.id = this.id;
+		grid.style.borderRadius = ".25rem";
 		this.items.forEach((itemRow, index) => {
 			let row = document.createElement("div");
 			row.className = "row";
 			itemRow.forEach((item, index) => {
 				let col = document.createElement("div");
 				col.className = "col";
+				col.style.marginTop = "4vh";
 				col.style.marginBottom = "2vh";
 				col.appendChild(item.wrapper);
 				row.appendChild(col);
@@ -433,7 +494,7 @@ class Grid extends basicUIObject {
 		span.appendChild(grid);
 		this.element = grid;
 		wrapper.appendChild(span);
-		if (visible) document.body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
 	}
 }
 
@@ -451,12 +512,12 @@ function createNavBar(theme = "light", backgroundColor = "") {
 
 // function for setting the background color
 function setBackgroundColor(color = "white") {
-	document.body.style.backgroundColor = color;
+	body.style.backgroundColor = color;
 }
 
 // function for setting the font color
 function setColor(color = "black") {
-	document.body.style.color = color;
+	body.style.color = color;
 	fontColor = color;
 }
 
@@ -471,17 +532,14 @@ function addText(text, position = "left", color = "") {
 function addHTML(code) {
 	let span = document.createElement("span");
 	span.innerHTML = code;
-	document.body.appendChild(span);
+	body.appendChild(span);
 	return span;
 }
 
 // this function adds a header to the body
-function addHeader(text, position = "left", size = 6) {
-	let htmlHeader = "h" + (7 - size);
-	let header = document.createElement(htmlHeader);
-	header.innerText = text;
-	header.style.textAlign = position;
-	document.body.appendChild(header);
+function addHeader(text, size = 6, position = "left") {
+	let header = new Header(text, size, position);
+	header.add();
 	return header;
 }
 
@@ -523,4 +581,27 @@ function createGrid(items, position = "left") {
 	let grid = new Grid(items, position);
 	grid.add();
 	return grid;
+}
+
+// this function toggles the theme
+function toggleTheme() {
+	elements.forEach((element, index) => {
+		element.theme = light ? "dark" : "light";
+		element.update();
+		if (element.src) {
+			element.setTitle(element.title[0], element.title[1]);
+			let copy = [...element.items];
+			element.items = [];
+			copy.forEach((item, i) => {
+				element.addItem(item[0], item[1], item[2], item[3], item[4]);
+			});
+		}
+	});
+	if (light) {
+		body.className = body.className.replaceAll("bg-white", "");
+		body.style.backgroundColor = darkBackgroundColor;
+	} else {
+		body.className += "bg-white";
+	}
+	light = !light;
 }
