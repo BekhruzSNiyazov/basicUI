@@ -13,8 +13,29 @@ bundleLink.crossOrigin = "anonymous";
 document.head.appendChild(bundleLink);
 // increasing the font size of each element
 let style = document.createElement("style");
-style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) { font-size: 1.2rem !important; } .short-input { width: 20vw }`;
+style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) {
+	font-size: 1.2rem !important;
+}
+
+.short-input {
+	width: 20vw
+}
+
+.alert {
+	font-size: 1rem !important;
+	margin-left: 1vw;
+	margin-right: 1vw;
+	display: flex;
+	justify-content: space-between !important;
+	align-items: center !important;
+}
+
+.closeButton {
+	padding: 0 12px 0 12px !important;
+	font-family: Garamond, "Apple Garamond";
+}`;
 document.head.appendChild(style);
+
 let body = document.body;
 body.className = "bg-white";
 
@@ -540,17 +561,8 @@ class Alert extends basicUIObject {
 			alert.id = this.id;
 			alert.role = "alert";
 			alert.innerHTML = this.text;
-			alert.style.cssText += "font-size: 1rem !important; margin-left: 1vw; margin-right: 1vw;";
-			alert.style.display = "flex";
-			alert.style.justifyContent = "space-between";
-			alert.style.alignItems = "center";
 			let closeButton = document.createElement("button");
-			closeButton.className = `btn btn-outline-${this.type}`;
-			closeButton.style.paddingLeft = "12px";
-			closeButton.style.paddingRight = "12px";
-			closeButton.style.paddingTop = "0";
-			closeButton.style.paddingBottom = "0";
-			closeButton.style.fontFamily = `Garamond, "Apple Garamond"`;
+			closeButton.className = `btn btn-outline-${this.type} closeButton`;
 			closeButton.innerText = "×";
 			closeButton.onclick = () => {
 				alertField.removeChild(alert);
@@ -694,4 +706,9 @@ function addAlert(text, type) {
 	let alert = new Alert(text, type);
 	alert.add();
 	return alert;
+}
+
+// this function adds provided style to the style tag
+function addStyle(style) {
+	style.innerHTML += style;
 }
