@@ -29,6 +29,7 @@ let buttonCount = 0;
 let tableCount = 0;
 let cardCount = 0;
 let gridCount = 0;
+let alertCount = 0;
 
 // current theme
 let light = true;
@@ -113,7 +114,7 @@ class basicUIObject {
 	add() {}
 }
 
-class navBar extends basicUIObject {
+class NavBar extends basicUIObject {
 	constructor(theme = "light", backgroundColor = "") {
 		super();
 		this.theme = theme;
@@ -506,6 +507,52 @@ class Grid extends basicUIObject {
 	}
 }
 
+class Alert extends basicUIObject {
+	constructor(text, type) {
+		super();
+		this.text = text;
+		this.type = type;
+		this.theme = "light";
+		this.hiddenId = "alerts-" + alertCount++;
+		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
+		if (!types.includes(" " + type)) {
+			throw `Type "${type}" is not recognized. Here is a list of all available types:${types}.`;
+		}
+	}
+
+	add() {
+		let alertField = document.getElementById("alertField");
+		if (alertField) {
+			let alert = document.createElement("div");
+			alert.className = `alert alert-${this.type} ${this.classes}`;
+			alert.id = this.id;
+			alert.role = "alert";
+			alert.innerHTML = this.text;
+			alert.style.cssText += "font-size: 1rem !important; margin-left: 1vw; margin-right: 1vw;";
+			alert.style.display = "flex";
+			alert.style.justifyContent = "space-between";
+			alert.style.alignItems = "center";
+			let closeButton = document.createElement("button");
+			closeButton.className = `btn btn-outline-${this.type}`;
+			closeButton.style.paddingLeft = "12px";
+			closeButton.style.paddingRight = "12px";
+			closeButton.style.paddingTop = "1px";
+			closeButton.style.paddingBottom = "1px";
+			closeButton.innerText = "×";
+			closeButton.style.cursor = "pointer";
+			closeButton.onclick = () => {
+				alertField.removeChild(alert);
+			}
+			alert.appendChild(closeButton);
+			this.wrapper = alertField;
+			this.element = alert;
+			alertField.appendChild(alert);
+		} else {
+			throw "You need to create a field for alerts messages first. Use createAlertField function for that purpose.";
+		}
+	}
+}
+
 // function for changing the title of the webpage
 function setTitle(title) {
 	document.title = title;
@@ -513,7 +560,7 @@ function setTitle(title) {
 
 // function for creating a navbar
 function createNavBar(theme = "light", backgroundColor = "") {
-	let nav = new navBar(theme, backgroundColor);
+	let nav = new NavBar(theme, backgroundColor);
 	nav.add();
 	return nav;
 }
@@ -617,4 +664,19 @@ function toggleTheme() {
 		light = !light;
 		themeToggleBusy = false;
 	}
+}
+
+// this function creates a field for alerts
+function createAlertField() {
+	let alertField = document.createElement("span");
+	alertField.id = "alertField";
+	body.appendChild(alertField);
+	return alertField;
+}
+
+// this function adds an alerts
+function addAlert(text, type) {
+	let alert = new Alert(text, type);
+	alert.add();
+	return alert;
 }
