@@ -2,6 +2,7 @@
 let navbar = createNavBar();
 navbar.setTitle("Theme Toggler");
 navbar.addItem("home", "Home");
+
 navbar.addItem("logo", ["../../images/logo.png", 175, 50]);
 
 setTitle("Theme Toggler - basicUI");
