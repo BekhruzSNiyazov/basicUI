@@ -19,7 +19,10 @@ let body = document.body;
 body.className = "bg-white";
 
 // the font color
-let fontColor = "";
+let fontColor;
+
+// the background color;
+let backgroundColor;
 
 // the counting variables
 let textCount = 0;
@@ -569,6 +572,7 @@ function createNavBar(theme = "light", backgroundColor = "") {
 // function for setting the background color
 function setBackgroundColor(color = "white") {
 	body.style.cssText += "background-color: " + color + " !important;";
+	backgroundColor = color;
 }
 
 // function for setting the font color
@@ -662,6 +666,7 @@ function toggleTheme() {
 		} else {
 			body.className += "bg-white";
 		}
+		setBackgroundColor(backgroundColor);
 		light = !light;
 		themeToggleBusy = false;
 	}
