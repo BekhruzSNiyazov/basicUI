@@ -39,6 +39,9 @@ let elements = [];
 // the dark background color
 let darkBackgroundColor = "#0f0f0f";
 
+// navbar
+let navbarObject;
+
 // this function sets classes to the element by the theme
 function manageTheme(element, theme) {
 	if (theme === "light") element.className += " text-dark bg-light";
@@ -142,6 +145,7 @@ class navBar extends basicUIObject {
 		wrapper.appendChild(nav);
 		this.element = nav;
 		this.outerElement = this.element;
+		navbarObject = this;
 		if (visible) body.appendChild(wrapper);
 	}
 
@@ -552,7 +556,7 @@ function addInput(type, placeholder = "") {
 
 // this function adds a new line in the file
 function addNewLine() {
-	document.body.appendChild(document.createElement("br"));
+	body.appendChild(document.createElement("br"));
 }
 
 // this function adds a button to the body
@@ -585,17 +589,16 @@ function createGrid(items, position = "left") {
 
 // this function toggles the theme
 function toggleTheme() {
+	let copy;
 	elements.forEach((element, index) => {
 		element.theme = light ? "dark" : "light";
 		element.update();
-		if (element.src) {
-			element.setTitle(element.title[0], element.title[1]);
-			let copy = [...element.items];
-			element.items = [];
-			copy.forEach((item, i) => {
-				element.addItem(item[0], item[1], item[2], item[3], item[4]);
-			});
-		}
+	});
+	navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
+	copy = [...navbarObject.items];
+	navbarObject.items = [];
+	copy.forEach((item, i) => {
+		navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
 	});
 	if (light) {
 		body.className = body.className.replaceAll("bg-white", "");
