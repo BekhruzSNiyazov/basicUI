@@ -46,26 +46,20 @@ let darkBackgroundColor = "#0f0f0f";
 // navbar
 let navbarObject;
 
-// this function sets classes to the element by the theme
-function manageTheme(element, theme, background = true) {
-	if (theme === "light") element.className += (fontColor ? " " : " text-dark") + (background ? " bg-light" : "");
-	else if (theme === "dark") element.className += (fontColor ? " " : " text-light") + (background ? " bg-dark" : "");
-	else throw `Theme can only be "light" or "dark"`;
-}
-
 class basicUIObject {
 	hiddenId;
+	element;
 
 	constructor() {
 		this.classes = "";
 		this.id = "";
+		this.style = "";
 		this.removed = false;
 	}
 
 	// this function removes element from the body
 	remove() {
 		this.wrapper.removeChild(this.outerElement);
-		this.element = null;
 		this.removed = true;
 	}
 
@@ -73,12 +67,14 @@ class basicUIObject {
 	update() {
 		this.remove();
 		this.add(false);
+		if (this.style) this.element.style.cssText = this.style;
 	}
 
 	// this function sets the style to the element
 	setStyle(style) {
 		if (this.element) {
 			this.element.style.cssText += style;
+			this.style += style;
 		} else {
 			throw "Add element with .add method first";
 		}
@@ -115,6 +111,13 @@ class basicUIObject {
 	}
 
 	add() {}
+}
+
+// this function sets classes to the element by the theme
+function manageTheme(element, theme, background = true) {
+	if (theme === "light") element.className += (fontColor ? " " : " text-dark") + (background ? " bg-light" : "");
+	else if (theme === "dark") element.className += (fontColor ? " " : " text-light") + (background ? " bg-dark" : "");
+	else throw `Theme can only be "light" or "dark"`;
 }
 
 class NavBar extends basicUIObject {
@@ -235,6 +238,10 @@ class Text extends basicUIObject {
 		this.color = "";
 		this.theme = "light";
 		this.hiddenId = "text-" + textCount++;
+		let positions = [" left", " right", " center"];
+		if (!positions.includes(" " + position)) {
+			throw `Position ${position} is not recognized. Here is a list of available positions:${positions}`;
+		}
 	}
 
 	// this function adds text to the body
@@ -269,8 +276,8 @@ class Header extends basicUIObject {
 		let wrapper = this.wrap();
 		let htmlHeader = "h" + (7 - this.size);
 		let header = document.createElement(htmlHeader);
-		header.className = this.classes;
 		manageTheme(header, this.theme, false);
+		header.className += " " + this.classes;
 		header.id = this.id;
 		header.innerText = this.text;
 		header.style.textAlign = this.position;
@@ -302,8 +309,8 @@ class Input extends basicUIObject {
 		let span = document.createElement("span");
 		this.alignContent(span, this.position);
 		let input = document.createElement("input");
-		input.className = "form-control " + this.classes;
 		manageTheme(input, this.theme);
+		input.className = "form-control " + this.classes;
 		input.id = this.id;
 		input.type = this.type;
 		input.placeholder = this.placeholder;
