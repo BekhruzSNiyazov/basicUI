@@ -383,6 +383,7 @@ class Table extends basicUIObject {
 		this.alignContent(span, this.position);
 		let table = document.createElement("table");
 		table.className = "table " + this.classes;
+		manageTheme(table, this.theme, false);
 		table.id = this.id;
 		let thead = document.createElement("thead");
 		let trHead = document.createElement("tr");
