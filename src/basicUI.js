@@ -548,13 +548,14 @@ class Alert extends basicUIObject {
 			closeButton.className = `btn btn-outline-${this.type}`;
 			closeButton.style.paddingLeft = "12px";
 			closeButton.style.paddingRight = "12px";
-			closeButton.style.paddingTop = "1px";
-			closeButton.style.paddingBottom = "1px";
+			closeButton.style.paddingTop = "0";
+			closeButton.style.paddingBottom = "0";
+			closeButton.style.fontFamily = `Garamond, "Apple Garamond"`;
 			closeButton.innerText = "×";
-			closeButton.style.cursor = "pointer";
 			closeButton.onclick = () => {
 				alertField.removeChild(alert);
 			}
+			this.closeButton = closeButton;
 			alert.appendChild(closeButton);
 			this.wrapper = alertField;
 			this.element = alert;
