@@ -43,9 +43,9 @@ let darkBackgroundColor = "#0f0f0f";
 let navbarObject;
 
 // this function sets classes to the element by the theme
-function manageTheme(element, theme) {
-	if (theme === "light") element.className += " text-dark bg-light";
-	else if (theme === "dark") element.className += " text-light bg-dark";
+function manageTheme(element, theme, background = true) {
+	if (theme === "light") element.className += fontColor ? " " : " text-dark" + (background ? " bg-light" : "");
+	else if (theme === "dark") element.className += fontColor ? " " : " text-light" + (background ? " bg-dark" : "");
 	else throw `Theme can only be "light" or "dark"`;
 }
 
@@ -237,7 +237,8 @@ class Text extends basicUIObject {
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let div = document.createElement("div");
-		div.className = this.classes;
+		manageTheme(div, this.theme, false);
+		div.className += " " + this.classes;
 		div.id = this.id;
 		div.innerText = this.text;
 		div.style.textAlign = this.position;
@@ -265,13 +266,13 @@ class Header extends basicUIObject {
 		let htmlHeader = "h" + (7 - this.size);
 		let header = document.createElement(htmlHeader);
 		header.className = this.classes;
-		manageTheme(header, this.theme);
+		manageTheme(header, this.theme, false);
 		header.id = this.id;
 		header.innerText = this.text;
 		header.style.textAlign = this.position;
 		this.element = header;
 		wrapper.appendChild(header);
-		if (this.visible) body.appendChild(wrapper);
+		if (visible) body.appendChild(wrapper);
 	}
 }
 
@@ -418,7 +419,7 @@ class Card extends basicUIObject {
 		this.theme = "light";
 		this.hiddenId = "card-" + cardCount++;
 		if (!["light", "dark"].includes(this.theme)) {
-			throw `Theme can only be "dark" or "light"`;
+			throw `Theme can only be "light" or "dark"`;
 		}
 	}
 
@@ -524,7 +525,7 @@ function setBackgroundColor(color = "white") {
 
 // function for setting the font color
 function setColor(color = "black") {
-	body.style.color = color;
+	body.style.cssText += "color: " + color + " !important;";
 	fontColor = color;
 }
 
