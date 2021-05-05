@@ -101,7 +101,7 @@ class basicUIObject {
 		if (position === "left") {
 			element.style.justifyContent = "flex-start";
 		} else if (position === "right") {
-			element.style.justifyContent = "flex-end";
+			element.style.justifyContent = "flex-end"
 		} else if (position === "center") {
 			element.style.justifyContent = "center";
 		} else {
@@ -587,24 +587,30 @@ function createGrid(items, position = "left") {
 	return grid;
 }
 
+let themeToggleBusy = false;
+
 // this function toggles the theme
 function toggleTheme() {
-	let copy;
-	elements.forEach((element, index) => {
-		element.theme = light ? "dark" : "light";
-		element.update();
-	});
-	navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
-	copy = [...navbarObject.items];
-	navbarObject.items = [];
-	copy.forEach((item, i) => {
-		navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
-	});
-	if (light) {
-		body.className = body.className.replaceAll("bg-white", "");
-		body.style.backgroundColor = darkBackgroundColor;
-	} else {
-		body.className += "bg-white";
+	if (!themeToggleBusy) {
+		themeToggleBusy = true;
+		let copy;
+		elements.forEach((element, index) => {
+			element.theme = light ? "dark" : "light";
+			element.update();
+		});
+		navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
+		copy = [...navbarObject.items];
+		navbarObject.items = [];
+		copy.forEach((item, i) => {
+			navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
+		});
+		if (light) {
+			body.className = body.className.replaceAll("bg-white", "");
+			body.style.backgroundColor = darkBackgroundColor;
+		} else {
+			body.className += "bg-white";
+		}
+		light = !light;
+		themeToggleBusy = false;
 	}
-	light = !light;
 }
