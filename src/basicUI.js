@@ -48,8 +48,8 @@ let navbarObject;
 
 // this function sets classes to the element by the theme
 function manageTheme(element, theme, background = true) {
-	if (theme === "light") element.className += fontColor ? " " : " text-dark" + (background ? " bg-light" : "");
-	else if (theme === "dark") element.className += fontColor ? " " : " text-light" + (background ? " bg-dark" : "");
+	if (theme === "light") element.className += (fontColor ? " " : " text-dark") + (background ? " bg-light" : "");
+	else if (theme === "dark") element.className += (fontColor ? " " : " text-light") + (background ? " bg-dark" : "");
 	else throw `Theme can only be "light" or "dark"`;
 }
 
