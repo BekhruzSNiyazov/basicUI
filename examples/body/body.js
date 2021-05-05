@@ -20,6 +20,9 @@ addNewLine();
 
 // adding a button
 let button = addButton("hello", "primary", "center");
+button.onclick = toggleTheme;
+button.update();
+
 addNewLine();
 
 // changing the position of the input
