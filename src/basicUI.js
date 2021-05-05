@@ -272,6 +272,7 @@ class Header extends basicUIObject {
 		header.innerText = this.text;
 		header.style.textAlign = this.position;
 		this.element = header;
+		this.outerElement = header;
 		wrapper.appendChild(header);
 		if (visible) body.appendChild(wrapper);
 	}
