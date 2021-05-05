@@ -238,12 +238,12 @@ class Text extends basicUIObject {
 		let wrapper = this.wrap();
 		let div = document.createElement("div");
 		div.className = this.classes;
-		manageTheme(div, this.theme);
 		div.id = this.id;
 		div.innerText = this.text;
 		div.style.textAlign = this.position;
 		div.style.color = this.color;
 		this.element = div;
+		this.outerElement = this.element;
 		wrapper.appendChild(div);
 		if (visible) body.appendChild(wrapper);
 	}
@@ -377,7 +377,6 @@ class Table extends basicUIObject {
 		this.alignContent(span, this.position);
 		let table = document.createElement("table");
 		table.className = "table " + this.classes;
-		manageTheme(table, this.theme);
 		table.id = this.id;
 		let thead = document.createElement("thead");
 		let trHead = document.createElement("tr");
@@ -520,7 +519,7 @@ function createNavBar(theme = "light", backgroundColor = "") {
 
 // function for setting the background color
 function setBackgroundColor(color = "white") {
-	body.style.backgroundColor = color;
+	body.style.cssText += "background-color: " + color + " !important;";
 }
 
 // function for setting the font color
