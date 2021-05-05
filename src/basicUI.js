@@ -666,7 +666,7 @@ function toggleTheme() {
 		} else {
 			body.className += "bg-white";
 		}
-		setBackgroundColor(backgroundColor);
+		if (backgroundColor) setBackgroundColor(backgroundColor);
 		light = !light;
 		themeToggleBusy = false;
 	}
