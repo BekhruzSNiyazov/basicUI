@@ -330,7 +330,7 @@ class Button extends basicUIObject {
 		this.onclick = null;
 		this.hiddenId = "button-" + buttonCount++;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
-		if (!types.includes(" " + type)) {
+		if (!types.includes(" " + type) && type !== "") {
 			throw `The type ${type} was not recognized. Here is the list of available types:${types}`;
 		}
 	}
@@ -341,8 +341,12 @@ class Button extends basicUIObject {
 		let span = document.createElement("span");
 		this.alignContent(span, this.position);
 		let button = document.createElement("button");
-		button.className = "btn btn-" + this.type + " " + this.classes;
-		if (!this.type) manageTheme(button, this.theme);
+		button.className = "btn" + this.classes;
+		if (!this.type) {
+			manageTheme(button, this.theme);
+		} else {
+			button.className += " btn-" + this.type;
+		}
 		button.id = this.id;
 		button.innerText = this.text;
 		button.style.color = this.color;
