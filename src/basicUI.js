@@ -107,10 +107,11 @@ function manageTheme(element, theme, background = true) {
 function adjustSize(image, width) {
 	image.onload = () => {
 		let w = image.width;
-		let height = image.height;
-		let aspectRatio = w / height;
+		let h = image.height;
+		let aspectRatio = w / h;
 		image.style.width = width + "px";
-		image.style.height = height / aspectRatio + "px";
+		image.style.height = (width / w * h) + "px";
+		console.log(width / w * h)
 	}
 }
 
@@ -252,8 +253,8 @@ class NavBar extends basicUIObject {
 			li.innerHTML = `<a class="nav-link active ${classes}" id="${id}" aria-current="page" href="/">${properties}</a>`
 		} else if (role === "logo") {
 			let navImage = document.getElementById("navbar-image");
-			navImage.innerHTML = `<img src="${properties[0]}" class="${classes}" id="${id}" alt="Navbar Image"
-				width="${properties[1]}" height="${properties[2]}" class="d-inline-block align-text-top">` + navImage.innerHTML;
+			navImage.innerHTML = `<img src="${properties}" class="${classes}" id="${id}" alt="Navbar Image"
+				width="100" class="d-inline-block align-text-top">` + navImage.innerHTML;
 		} else if (role === "link") {
 			li.innerHTML = `<a class="nav-link ${classes}" id="${id}" href="${properties[1]}">${properties[0]}</a>`;
 		} else if (role === "text") {

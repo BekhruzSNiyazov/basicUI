@@ -4,7 +4,7 @@ setTitle("Alerts - basicUI");
 let navbar = createNavBar();
 navbar.setTitle("Alerts");
 navbar.addItem("home", "Home");
-navbar.addItem("logo", ["../../images/logo.png", 175, 50]);
+navbar.addItem("logo", "../../images/logo.png");
 
 createAlertField();
 

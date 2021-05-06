@@ -6,7 +6,7 @@ navbar.setBackgroundColor("#37474a");
 // setting the title on the navbar
 navbar.setTitle("Navbar Example");
 // setting the logo on the navbar
-navbar.addItem("logo", ["../../images/logo.png", 175, 50]);
+navbar.addItem("logo", "../../images/logo.png");
 // creating a link for home page
 navbar.addItem("home", "Home");
 // creating a link for another page

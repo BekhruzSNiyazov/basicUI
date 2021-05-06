@@ -2,7 +2,7 @@
 let navbar = createNavBar();
 navbar.setTitle("Grid");
 navbar.addItem("home", "Home");
-navbar.addItem("logo", ["../../images/logo.png", 175, 50]);
+navbar.addItem("logo", "../../images/logo.png");
 
 setTitle("Grid - basicUI");
 

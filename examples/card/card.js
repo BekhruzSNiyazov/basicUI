@@ -2,7 +2,7 @@
 let navbar = createNavBar();
 navbar.setTitle("Card");
 navbar.addItem("home", "Home");
-navbar.addItem("logo", ["../../images/logo.png", 175, 50]);
+navbar.addItem("logo", "../../images/logo.png");
 
 // adding a line break
 addNewLine();
