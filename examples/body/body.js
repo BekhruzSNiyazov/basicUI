@@ -38,7 +38,7 @@ input.update();
 addHTML(`<span style="text-align: center;">Hello, HTML</span>`)
 
 // adding a header
-addHeader("Hello, Header", 6, "center");
+addHeading("Hello, Heading", 6, "center");
 
 // setting the title of the webpage
 setTitle("Body - basicUI")

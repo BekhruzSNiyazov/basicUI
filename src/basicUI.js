@@ -282,7 +282,7 @@ class Text extends basicUIObject {
 	}
 }
 
-class Header extends basicUIObject {
+class Heading extends basicUIObject {
 	constructor(text, size, position) {
 		super();
 		this.text = text;
@@ -618,8 +618,8 @@ function addHTML(code) {
 }
 
 // this function adds a header to the body
-function addHeader(text, size = 6, position = "left") {
-	let header = new Header(text, size, position);
+function addHeading(text, size = 6, position = "left") {
+	let header = new Heading(text, size, position);
 	header.add();
 	return header;
 }
