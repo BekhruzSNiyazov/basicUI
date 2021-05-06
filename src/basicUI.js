@@ -321,6 +321,7 @@ class Text extends basicUIObject {
 		this.outerElement = this.element;
 		wrapper.appendChild(div);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -348,6 +349,7 @@ class Heading extends basicUIObject {
 		this.outerElement = header;
 		wrapper.appendChild(header);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -390,6 +392,7 @@ class Input extends basicUIObject {
 		this.element = input;
 		wrapper.appendChild(span);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -433,6 +436,7 @@ class Button extends basicUIObject {
 		this.element = button;
 		wrapper.appendChild(span);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -480,6 +484,7 @@ class Table extends basicUIObject {
 		span.appendChild(table);
 		wrapper.appendChild(span);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -535,6 +540,7 @@ class Card extends basicUIObject {
 		a.href = this.link[1];
 		a.innerText = this.link[0];
 		a.className = this.link[2] === "button" ? "btn btn-primary" : "card-link";
+		if (this.button) a.onclick = this.button.onclick;
 		this.button = a;
 		div.appendChild(a);
 		card.appendChild(div);
@@ -542,6 +548,7 @@ class Card extends basicUIObject {
 		this.element = card;
 		wrapper.appendChild(span);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -552,15 +559,15 @@ class Grid extends basicUIObject {
 		this.position = position;
 		this.theme = "light";
 		this.hiddenId = "grid-" + gridCount++;
+	}
+
+	add(visible = true) {
+		let wrapper = this.wrap();
 		this.items.forEach((array, index) => {
 			array.forEach((element, index) => {
 				element.add(false);
 			});
 		});
-	}
-
-	add(visible = true) {
-		let wrapper = this.wrap();
 		let span = document.createElement("span");
 		this.alignContent(span, this.position);
 		let grid = document.createElement("div");
@@ -585,6 +592,7 @@ class Grid extends basicUIObject {
 		this.element = grid;
 		wrapper.appendChild(span);
 		if (visible) body.appendChild(wrapper);
+		this.setStyle(this.style);
 	}
 }
 
@@ -620,6 +628,7 @@ class Alert extends basicUIObject {
 			this.wrapper = alertField;
 			this.element = alert;
 			alertField.appendChild(alert);
+			this.setStyle(this.style);
 		} else {
 			throw "You need to create a field for alerts messages first. Use createAlertField function for that purpose.";
 		}
