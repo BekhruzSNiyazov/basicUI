@@ -757,6 +757,6 @@ function addAlert(text, type) {
 }
 
 // this function adds provided style to the style tag
-function addStyle(style) {
-	style.innerHTML += style;
+function addStyle(string) {
+	style.innerHTML += string;
 }
