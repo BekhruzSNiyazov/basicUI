@@ -33,7 +33,36 @@ style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) {
 .closeButton {
 	padding: 0 12px 0 12px !important;
 	font-family: Garamond, "Apple Garamond";
-}`;
+}
+
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100vw;
+    padding: 4vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+footer span {
+	width: 25vw;
+	text-align: right;
+}
+
+footer span p {
+	text-align: left;
+}
+
+.center {
+	text-align: center;
+}
+
+.bar {
+    margin-left: 1vw;
+    margin-right: 1vw;
+}
+`;
 document.head.appendChild(style);
 
 let body = document.body;
@@ -66,6 +95,24 @@ let darkBackgroundColor = "#0f0f0f";
 
 // navbar
 let navbarObject;
+
+// this function sets classes to the element by the theme
+function manageTheme(element, theme, background = true) {
+	if (theme === "light") element.className += (fontColor ? " " : " text-dark") + (background ? " bg-light" : "");
+	else if (theme === "dark") element.className += (fontColor ? " " : " text-light") + (background ? " bg-dark" : "");
+	else throw `Theme can only be "light" or "dark"`;
+}
+
+// this function adjusts the size of the image
+function adjustSize(image, width) {
+	image.onload = () => {
+		let w = image.width;
+		let height = image.height;
+		let aspectRatio = w / height;
+		image.style.width = width + "px";
+		image.style.height = height / aspectRatio + "px";
+	}
+}
 
 class basicUIObject {
 	hiddenId;
@@ -134,13 +181,6 @@ class basicUIObject {
 	add() {}
 }
 
-// this function sets classes to the element by the theme
-function manageTheme(element, theme, background = true) {
-	if (theme === "light") element.className += (fontColor ? " " : " text-dark") + (background ? " bg-light" : "");
-	else if (theme === "dark") element.className += (fontColor ? " " : " text-light") + (background ? " bg-dark" : "");
-	else throw `Theme can only be "light" or "dark"`;
-}
-
 class NavBar extends basicUIObject {
 	constructor(theme = "light", backgroundColor = "") {
 		super();
@@ -158,6 +198,7 @@ class NavBar extends basicUIObject {
                         </div>
                     </div>`;
 		this.items = [];
+		this.type = "sticky-top";
 		this.hiddenId = "nav";
 	}
 
@@ -165,7 +206,7 @@ class NavBar extends basicUIObject {
 	add(visible = true) {
 		let wrapper = this.wrap();
 		let nav = document.createElement("nav");
-		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme}`;
+		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme} ${this.type}`;
 		nav.innerHTML = this.src;
 		if (this.backgroundColor !== "") {
 			nav.style.setProperty("background-color", this.backgroundColor, "important");
