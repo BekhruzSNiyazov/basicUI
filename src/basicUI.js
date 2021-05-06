@@ -551,6 +551,9 @@ class Grid extends basicUIObject {
 		this.position = position;
 		this.theme = "light";
 		this.hiddenId = "grid-" + gridCount++;
+		this.items.forEach((item, index) => {
+			item.add(false);
+		});
 	}
 
 	add(visible = true) {
