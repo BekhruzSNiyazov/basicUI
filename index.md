@@ -23,8 +23,8 @@ or
 
 <hr>
 
-# Creating Navbar
-You can create a navbar with a `createNavBar` function. `createNavBar` takes 2 arguments:
+# Navbar
+To create a navbar with a `createNavBar` function. `createNavBar` takes 2 arguments:
 
 - `theme` is set to `light` by default; can be either `light` or `dark`
 - `backgroundColor` by default depends on the theme; you can use colors just as you do in CSS (`red`, `#fff`, `rgb(100, 100, 100)`)
@@ -94,7 +94,7 @@ If you want to add an element to the navbar use `.addItem` method. `.addItem` ta
 
 <hr>
 
-### Example
+#### Example
 This code creates a dark navbar with 7 items: `home`, `logo`, `link`, `text`, `input`, `button`, `dropdown`:
 ```javascript
 // creating the navbar
@@ -169,3 +169,78 @@ Result:
 ![result](https://firebasestorage.googleapis.com/v0/b/basic-social-network-71deb.appspot.com/o/demo1.png?alt=media&token=740f81e8-4c7f-4355-9b95-331961d1ec65)
 
 <hr>
+
+# Text
+Adding text to your webpage is really simple: just call the `addText` function. It takes 3 arguments:
+- `text` (required)
+- `position` (by default is set to `left`, can be `left` or `right` or `center`)
+- `color` (by default is the font color of the whole webpage)
+
+#### Example
+```javascript
+addText("Hello, world!");
+addText("Hello again, now in red and on the center!", "center", "red");
+```
+
+<hr>
+
+# Heading
+To add a heading you need to use the `addHeading` function. It takes 3 arguments:
+- `text` (required)
+- `size` (from 1 to 6, the biggest is 6, by default is set to 6)
+- `position` (by default is set to `left`, can be `left` or `right` or `center`)
+
+#### Example
+```javascript
+addHeading("Hello, heading", 5, "center");
+```
+
+<hr>
+
+# Input field
+To add an input field use `addInput` function. It takes 2 arguments:
+- `type` of the input field (required, can be `text`, `number`, `password`, etc.)
+- `placeholder` (by default is set to `""`)
+
+#### Example
+```javascript
+addInput("number", "Enter a number");
+```
+
+<hr>
+
+# Button
+To create a button use the `addButton` function. It takes 3 arguments:
+- `text` (required)
+- `type` (required, see [this](https://getbootstrap.com/docs/5.0/components/buttons/#examples) link for all available types)
+- `position` (by default is set to `left`, can be `left` or `right` or `center`)
+
+#### Example
+```javascript
+addButton("Click me!", "primary", "center");
+```
+
+<hr>
+
+# Table
+Creating a table is really simple. To do that, call the `createTable` function. It takes 3 arguments:
+- `first row` (required, should be an array of items of the first row)
+- `rows` (required, should be an array of arrays of items of rows)
+- `position` (by default is set to `left`, can be `left` or `right` or `center`)
+
+#### Example
+```javascript
+createTable(["#", "Language", "Compiled/Interpreted"], 
+    [
+        ["1", "Python", "Interpreted"],
+        ["2", "C", "Compiled"],
+        ["3", "JavaScript", "Interpreted"]
+    ],
+    "center"
+)
+```
+
+<hr>
+
+# Card
+To create a card call the `createCard` function
