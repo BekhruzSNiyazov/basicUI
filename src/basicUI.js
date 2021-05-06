@@ -534,7 +534,7 @@ class Card extends basicUIObject {
 		a.href = this.link[1];
 		a.innerText = this.link[0];
 		a.className = this.link[2] === "button" ? "btn btn-primary" : "card-link";
-		this.button = "a";
+		this.button = a;
 		div.appendChild(a);
 		card.appendChild(div);
 		span.appendChild(card);
