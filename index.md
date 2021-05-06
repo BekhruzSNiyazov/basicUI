@@ -237,10 +237,93 @@ createTable(["#", "Language", "Compiled/Interpreted"],
         ["3", "JavaScript", "Interpreted"]
     ],
     "center"
-)
+);
 ```
 
 <hr>
 
 # Card
-To create a card call the `createCard` function
+To create a card call the `createCard` function. It takes 5 arguments:
+- `title` (required)
+- `text` (required)
+- `link` an array of 3 items:
+    - `text` (required)
+    - `link` (required)
+    - `type` (required, use `"button"` for a button, anything for a normal link)
+- `image` (a path to the image, not required)
+- `position` (by default is set to `left`, can be `left` or `right` or `center`)
+
+#### Example
+```javascript
+createCard("Just a card", "This is a description of the card",
+    ["This is a link", "https://github.com/BekhruzSNiyazov", ""],
+    "",
+    "center"
+);
+```
+
+<hr>
+
+# Grid
+Creating a grid is really simple, to do that just call the `createGrid` function. It takes 2 arguments:
+- `items` (required, an array of arrays of basicUI objects)
+- `position` (by default is set to `left`, can be `left` or `right` or `center`)
+
+#### Example
+```javascript
+// creating cards
+let card1 = new Card("Card One", "This is the first card.", ["Link", "#"]);
+let card2 = new Card("Card Two", "This is the second card.", ["Link", "#"]);
+let card3 = new Card("Card Three", "This is the third card.", ["Link", "#"]);
+let card4 = new Card("Card Four", "This is the fourth card.", ["Link", "#"]);
+let card5 = new Card("Card Five", "This is the fifth card.", ["Link", "#"]);
+let card6 = new Card("Card Six", "This is the sixth card.", ["Link", "#"]);
+
+// changing the position of each card
+let cards = [card1, card2, card3, card4, card5, card6];
+cards.forEach((card, index) => {
+	card.position = "center";
+});
+
+// creating a grid
+createGrid([[card1, card2, card3], [card4, card5, card6]]);
+```
+
+<hr>
+
+# Alert
+To create an alert you need to call 2 functions:
+    - `createAlertField` (to create a field, where all alert messages will be stored). No arguments.
+    - `addAlert`. Arguments:
+        - `text` (required, the text message of the alert)
+        - `type` (required, same types as buttons)
+
+#### Example
+```javascript
+createAlertField();
+
+// code
+
+addAlert("This is a danger alert message", "danger");
+```
+
+<hr>
+
+# Useful functions
+There are many useful built-in functions in basicUI. Here is the whole list:
+- `setTitle` changes the title of the webpage. Arguments:
+    - `title` (required)
+- `setBackgroundColor` changes the background color of the webpage. Arguments:
+    - `color` (by default is set to `white`)
+- `setColor` changes the font color. Arguments:
+    - `color` (by default is set to `black`)
+- `addHTML` adds the given HTML code to the webpage. Arguments:
+    - `code` (required)
+- `addNewLine` adds a new line to the webpage. No arguments.
+- `toggleTheme` changes the whole theme of the whole webpage
+- `addStyle` does the same thing as the `<style>` tag.
+
+<hr>
+
+# Examples
+Here is a link where you can find examples of usage of each function: [https://github.com/BekhruzSNiyazov/basicUI/tree/master/examples](https://github.com/BekhruzSNiyazov/basicUI/tree/master/examples)
