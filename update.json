@@ -1,0 +1,8 @@
+{
+  "packageManager": "github",
+  "name": "basicUI.js",
+  "repo": "BekhruzSNiyazov/basicUI",
+  "files": {
+    "include": ["src/basicUI.js"]
+  }
+}
