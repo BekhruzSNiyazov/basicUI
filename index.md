@@ -105,7 +105,7 @@ navbar.setTitle("Example");
 navbar.addItem("home", "Home");
 
 // adding a logo to the navbar
-navbar.addItem("logo", ["images/logo.png", 175, 50]);
+navbar.addItem("logo", "images/logo.png");
 
 // adding a link to another page
 navbar.addItem("link", ["Another Page", "/another"]);
