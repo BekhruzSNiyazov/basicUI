@@ -34,34 +34,6 @@ style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) {
 	padding: 0 12px 0 12px !important;
 	font-family: Garamond, "Apple Garamond";
 }
-
-footer {
-    position: relative;
-    bottom: 0;
-    width: 100vw;
-    padding: 4vh;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-footer span {
-	width: 25vw;
-	text-align: right;
-}
-
-footer span p {
-	text-align: left;
-}
-
-.center {
-	text-align: center;
-}
-
-.bar {
-    margin-left: 1vw;
-    margin-right: 1vw;
-}
 `;
 document.head.appendChild(style);
 
@@ -152,15 +124,19 @@ class basicUIObject {
 	// this function wraps the element
 	wrap() {
 		let wrapper;
-		if (this.removed) {
-			wrapper = document.getElementById(this.hiddenId);
-			this.removed = false;
+		if (!this.wrapper) {
+			if (this.removed) {
+				wrapper = document.getElementById(this.hiddenId);
+				this.removed = false;
+			} else {
+				wrapper = document.createElement("span");
+				wrapper.id = this.hiddenId;
+			}
+			this.wrapper = wrapper;
 		} else {
-			wrapper = document.createElement("span");
-			wrapper.id = this.hiddenId;
+			wrapper = this.wrapper;
 		}
 		elements = [...elements, this];
-		this.wrapper = wrapper;
 		return wrapper;
 	}
 
