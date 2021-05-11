@@ -106,6 +106,7 @@ class basicUIObject {
 
 	// this function updates the element
 	update() {
+		this.updated = true;
 		this.remove();
 		this.add(false);
 		if (this.style) this.element.style.cssText = this.style;
@@ -177,6 +178,9 @@ class NavBar extends basicUIObject {
 		this.items = [];
 		this.type = "sticky-top";
 		this.hiddenId = "nav";
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
+		}
 	}
 
 	// this function adds the navbar to the body
@@ -281,6 +285,9 @@ class Text extends basicUIObject {
 		if (!positions.includes(" " + position)) {
 			throw `Position ${position} is not recognized. Here is a list of available positions:${positions}`;
 		}
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
+		}
 	}
 
 	// this function adds text to the body
@@ -309,6 +316,9 @@ class Heading extends basicUIObject {
 		this.position = position;
 		this.theme = "light";
 		this.hiddenId = "header-" + headerCount++;
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
+		}
 	}
 
 	// this function adds the header
@@ -336,12 +346,11 @@ class Input extends basicUIObject {
 		this.placeholder = placeholder;
 		this.value = "";
 		this.position = "left";
-		this.width = "";
-		this.color = "";
-		this.backgroundColor = "";
-		this.borderColor = "";
 		this.theme = "light";
 		this.hiddenId = "input-" + inputCount++;
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
+		}
 	}
 
 	// this function adds input to the body
@@ -361,9 +370,6 @@ class Input extends basicUIObject {
 		} else {
 			input.style.width = this.width;
 		}
-		if (this.color) input.style.setProperty("color", this.color, "important");
-		if (this.backgroundColor) input.style.setProperty("background-color", this.backgroundColor, "important");
-		if (this.borderColor) input.style.setProperty("border-color", this.borderColor, "important");
 		span.appendChild(input);
 		this.element = input;
 		wrapper.appendChild(span);
@@ -378,15 +384,15 @@ class Button extends basicUIObject {
 		this.text = text;
 		this.type = type;
 		this.position = position;
-		this.color = "";
-		this.backgroundColor = "";
-		this.borderColor = "";
 		this.theme = "light";
 		this.onclick = null;
 		this.hiddenId = "button-" + buttonCount++;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
 		if (!types.includes(" " + type) && type !== "") {
 			throw `The type ${type} was not recognized. Here is the list of available types:${types}`;
+		}
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
 		}
 	}
 
@@ -403,10 +409,7 @@ class Button extends basicUIObject {
 			button.className += " btn-" + this.type;
 		}
 		button.id = this.id;
-		button.innerText = this.text;
-		button.style.color = this.color;
-		button.style.backgroundColor = this.backgroundColor;
-		button.style.borderColor = this.borderColor;
+		button.innerHTML = this.text;
 		button.onclick = this.onclick;
 		span.appendChild(button);
 		this.element = button;
@@ -424,6 +427,9 @@ class Table extends basicUIObject {
 		this.position = position;
 		this.theme = "light";
 		this.hiddenId = "table-" + tableCount++;
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
+		}
 	}
 
 	// this function adds table to the body
@@ -535,13 +541,16 @@ class Grid extends basicUIObject {
 		this.position = position;
 		this.theme = "light";
 		this.hiddenId = "grid-" + gridCount++;
+		if (!["light", "dark"].includes(this.theme)) {
+			throw `Theme can only be "light" or "dark"`;
+		}
 	}
 
 	add(visible = true) {
 		let wrapper = this.wrap();
 		this.items.forEach((array, index) => {
 			array.forEach((element, index) => {
-				element.add(false);
+				if (!this.updated) element.add(false);
 			});
 		});
 		let span = document.createElement("span");
@@ -557,8 +566,7 @@ class Grid extends basicUIObject {
 			itemRow.forEach((item, index) => {
 				let col = document.createElement("div");
 				col.className = "col";
-				col.style.marginTop = "4vh";
-				col.style.marginBottom = "2vh";
+				col.style.marginTop = "2vh";
 				col.appendChild(item.wrapper);
 				row.appendChild(col);
 			});

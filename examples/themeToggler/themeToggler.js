@@ -20,7 +20,6 @@ let card6 = new Card("Card Six", "This is the sixth card.", ["Link", "#"]);
 let cards = [card1, card2, card3, card4, card5, card6];
 cards.forEach((card, index) => {
 	card.position = "center";
-	card.add(false);
 });
 
 // creating a grid
