@@ -19,6 +19,6 @@ input.style.marginRight = "1vw";
 // adding a button
 navbar.addItem("button", ["primary", "Button"], "right");
 // adding a dropdown menu
-navbar.addItem("dropdown", ["Dropdown", ["hello", "world"]]);
+navbar.addItem("dropdown", ["Dropdown", [["hello", "/hello"], ["world", "/world"]]]);
 // setting the title of the webpage
 setTitle("Navbar - basicUI");
