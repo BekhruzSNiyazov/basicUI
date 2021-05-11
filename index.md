@@ -8,7 +8,7 @@ To get basicUI up and running the only thing you need to do is to import it.
 
 To do that add this line as the first tag of the body of your webpage:
 ```html
-<script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI@1.0/src/basicUI.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI@1.0.2/src/basicUI.js" crossorigin="anonymous"></script>
 ```
 After that, add a script tag that will contain all JavaScript code. You can provide the JavaScript as a seperate file or you can just write code in your HTML file.
 ```html
@@ -131,7 +131,7 @@ Full code:
 </head>
 <body>
     <!-- importing basicUI -->
-    <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI@1.0/src/basicUI.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/BekhruzSNiyazov/basicUI@1.0.2/src/basicUI.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
         // creating the navbar
         let navbar = createNavBar("dark");
