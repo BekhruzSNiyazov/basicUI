@@ -15,7 +15,9 @@ addStyle(`input { margin-top: 2vh !important; } #button { margin-top: 2vh; }`);
 
 let inputs = [title, front, back];
 inputs.forEach((input, index) => {
-	input.setStyle("margin-left: auto; margin-right: auto; text-align: center;");
+	input.setStyle("text-align: center;");
+	input.position = "center";
+	input.update();
 });
 
 let cards = [];
