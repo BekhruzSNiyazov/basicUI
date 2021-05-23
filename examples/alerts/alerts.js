@@ -6,6 +6,8 @@ navbar.setTitle("Alerts");
 navbar.addItem("home", "Home");
 navbar.addItem("logo", "../../images/logo.png");
 
+addNewLine();
+
 createAlertField();
 
 addAlert("A primary alert", "primary");
