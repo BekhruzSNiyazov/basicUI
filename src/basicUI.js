@@ -27,7 +27,7 @@ document.body.appendChild(mdbJS);
 // increasing the font size of each element
 let style = document.createElement("style");
 style.innerHTML = `
-*:not(h1, h2, h3, h4, h5, h6, button) {
+*:not(h1, h2, h3, h4, h5, h6, button, .btn) {
 	font-size: 1.2rem !important;
 }
 
@@ -502,7 +502,6 @@ class Button extends basicUIObject {
 			this.element.className += " btn-" + this.type;
 		}
 		this.element.id = this.id;
-		console.log(this.id);
 		this.element.innerHTML = this.text;
 		this.element.onclick = this.onclick;
 		this.setStyle(this.style);
@@ -618,6 +617,7 @@ class Card extends basicUIObject {
 			this.wrapper.appendChild(this.outerElement);
 			if (visible) body.appendChild(this.wrapper);
 			this.added = true;
+			this.removed = false;
 		} else {
 			this.outerElement.style.display = "block";
 			this.removed = false;
@@ -657,11 +657,6 @@ class Grid extends basicUIObject {
 	add(visible = true) {
 		if (!this.added) {
 			this.wrapper = this.wrap();
-			this.items.forEach((array) => {
-				array.forEach((element) => {
-					if (!this.updated) element.add(false);
-				});
-			});
 			this.outerElement = document.createElement("span");
 			this.element = document.createElement("div");
 			this.row = document.createElement("div");
@@ -671,10 +666,16 @@ class Grid extends basicUIObject {
 			if (visible) body.appendChild(this.wrapper);
 			this.added = true;
 		} else {
-			this.items = [];
+			this.row.innerHTML = "";
 			this.outerElement.style.display = "block";
 			this.removed = false;
 		}
+
+		this.items.forEach((array) => {
+			array.forEach((element) => {
+				if (!this.added) element.add(false);
+			});
+		});
 
 		this.alignContent(this.outerElement, this.position);
 		this.element.className = "container " + this.classes;
@@ -829,6 +830,7 @@ function toggleTheme() {
 		elements.forEach((element, index) => {
 			element.theme = light ? "dark" : "light";
 			element.update();
+			if (element.removed === true) element.remove();
 		});
 		if (navbarObject) {
 			navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
