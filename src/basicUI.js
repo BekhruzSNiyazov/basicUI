@@ -223,7 +223,10 @@ class NavBar extends basicUIObject {
 			this.element = document.createElement("nav");
 			if (visible) body.appendChild(this.wrapper);
 			this.added = true;
+		} else {
+			this.outerElement.style.display = "block";
 		}
+		this.removed = false;
 		this.element.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme} ${this.type}`;
 		this.element.innerHTML = this.src;
 		if (this.backgroundColor !== "") {
@@ -336,8 +339,9 @@ class Text extends basicUIObject {
 			this.added = true;
 		} else {
 			this.outerElement.style.display = "block";
-			this.removed = false;
 		}
+		this.removed = false;
+
 		manageTheme(this.element, this.theme, false);
 		this.element.className += " " + this.classes;
 		this.element.id = this.id;
@@ -375,8 +379,9 @@ class Heading extends basicUIObject {
 			this.added = true;
 		} else {
 			this.outerElement.style.display = "block";
-			this.removed = false;
 		}
+		this.removed = false;
+
 		manageTheme(this.element, this.theme, false);
 		this.element.className += " " + this.classes;
 		this.element.id = this.id;
@@ -413,8 +418,8 @@ class Input extends basicUIObject {
 			this.added = true;
 		} else {
 			this.outerElement.style.display = "block";
-			this.removed = false;
 		}
+		this.removed = false;
 
 		this.outerElement.className = "form-outline" + (!this.width ? " short-input " : "");
 		if (this.position === "center")
@@ -492,8 +497,9 @@ class Button extends basicUIObject {
 			this.added = true;
 		} else {
 			this.outerElement.style.display = "block";
-			this.removed = false;
 		}
+		this.removed = false;
+
 		this.alignContent(this.outerElement, this.position);
 		this.element.className = "btn" + this.classes;
 		if (!this.type) {
@@ -541,8 +547,9 @@ class Table extends basicUIObject {
 			this.tbody = document.createElement("tbody");
 			this.element.appendChild(this.tbody);
 			this.outerElement.style.display = "block";
-			this.removed = true;
 		}
+		this.removed = false;
+
 		this.alignContent(this.outerElement, this.position);
 		this.element.className = "table " + this.classes;
 		manageTheme(this.element, this.theme, false);
@@ -617,11 +624,10 @@ class Card extends basicUIObject {
 			this.wrapper.appendChild(this.outerElement);
 			if (visible) body.appendChild(this.wrapper);
 			this.added = true;
-			this.removed = false;
 		} else {
 			this.outerElement.style.display = "block";
-			this.removed = false;
 		}
+		this.removed = false;
 
 		this.alignContent(this.outerElement, this.position);
 		this.element.className = "card mb-3 " + this.classes;
@@ -668,12 +674,12 @@ class Grid extends basicUIObject {
 		} else {
 			this.row.innerHTML = "";
 			this.outerElement.style.display = "block";
-			this.removed = false;
 		}
+		this.removed = false;
 
 		this.items.forEach((array) => {
 			array.forEach((element) => {
-				if (!this.added) element.add(false);
+				element.add(false);
 			});
 		});
 
