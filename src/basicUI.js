@@ -165,7 +165,8 @@ class basicUIObject {
 		this.outerElement = element;
 	}
 
-	add() {}
+	add() {
+	}
 }
 
 class NavBar extends basicUIObject {
@@ -373,7 +374,6 @@ class Input extends basicUIObject {
 		if (!this.added) {
 			this.wrapper = this.wrap();
 			this.element = document.createElement("input");
-			manageTheme(this.element, this.theme);
 			this.outerElement = document.createElement("div");
 			this.outerElement.id = this.hiddenId + "Outer";
 			if (visible) body.appendChild(this.wrapper);
@@ -403,15 +403,28 @@ class Input extends basicUIObject {
 			this.element.style.width = this.width;
 		}
 
-		let label = document.createElement("label");
-		label.className = "form-label";
-		label.htmlFor = this.hiddenId + "forLabel";
-		label.innerHTML = this.placeholder;
+		this.label = document.createElement("label");
+		this.label.className = "form-label";
+		this.label.htmlFor = this.hiddenId + "forLabel";
+		this.label.innerHTML = this.placeholder;
 
 		if (createOuter) {
 			this.outerElement.appendChild(this.element);
-			this.outerElement.appendChild(label);
+			this.outerElement.appendChild(this.label);
 			this.wrapper.appendChild(this.outerElement);
+		}
+
+		manageTheme(this.outerElement, this.theme);
+		manageTheme(this.element, this.theme);
+		console.log(this.theme);
+		if (this.theme === "light") {
+			this.outerElement.removeChild(this.outerElement.getElementsByTagName("label")[0]);
+			this.label.className += " text-dark";
+			this.outerElement.appendChild(this.label);
+		} else {
+			this.outerElement.removeChild(this.outerElement.getElementsByTagName("label")[0]);
+			this.label.className += " text-light";
+			this.outerElement.appendChild(this.label);
 		}
 
 		this.setStyle(this.style);
@@ -771,12 +784,14 @@ function toggleTheme() {
 			element.theme = light ? "dark" : "light";
 			element.update();
 		});
-		navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
-		copy = [...navbarObject.items];
-		navbarObject.items = [];
-		copy.forEach((item) => {
-			navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
-		});
+		if (navbarObject) {
+			navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
+			copy = [...navbarObject.items];
+			navbarObject.items = [];
+			copy.forEach((item) => {
+				navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
+			});
+		}
 		if (light) {
 			body.className = body.className.replaceAll("bg-white", "");
 			body.style.backgroundColor = darkBackgroundColor;
