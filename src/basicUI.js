@@ -641,7 +641,10 @@ class Card extends basicUIObject {
 		this.a.href = this.link[1];
 		this.a.innerText = this.link[0];
 		this.a.className = this.link[2] === "button" ? "btn btn-primary" : "card-link";
-		if (this.button) this.a.onclick = this.button.onclick;
+		if (this.button) {
+			this.a.onclick = this.button.onclick;
+			this.a.style.fontSize = "1rem";
+		}
 		this.button = this.a;
 		this.setStyle(this.style);
 		manageTheme(this.element, this.theme);
