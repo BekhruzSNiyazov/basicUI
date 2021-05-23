@@ -1,24 +1,38 @@
-// importing bootstrap css
-let bootstrapLink = document.createElement("link");
-bootstrapLink.href = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css";
-bootstrapLink.rel = "stylesheet";
-bootstrapLink.integrity = "sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6";
-bootstrapLink.crossOrigin = "anonymous";
-document.head.appendChild(bootstrapLink);
-// importing bootstrap js
-let bundleLink = document.createElement("script");
-bundleLink.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js";
-bundleLink.integrity = "sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf";
-bundleLink.crossOrigin = "anonymous";
-document.head.appendChild(bundleLink);
+// Font Awesome
+let fontawesomeLink = document.createElement("link");
+fontawesomeLink.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css";
+fontawesomeLink.rel = "stylesheet";
+
+// Google Fonts
+let googleFontsLink = document.createElement("link");
+googleFontsLink.href = "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap";
+googleFontsLink.rel = "stylesheet";
+
+// Material Design Bootstrap
+let mdb = document.createElement("link");
+mdb.href = "https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.css";
+mdb.rel = "stylesheet";
+
+// adding to the head of the document
+document.head.appendChild(fontawesomeLink);
+document.head.appendChild(googleFontsLink);
+document.head.appendChild(mdb);
+
+// MDB JS
+let mdbJS = document.createElement("script");
+mdbJS.type = "text/javascript";
+mdbJS.src = "https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.5.0/mdb.min.js";
+document.body.appendChild(mdbJS);
+
 // increasing the font size of each element
 let style = document.createElement("style");
-style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) {
+style.innerHTML = `
+*:not(h1, h2, h3, h4, h5, h6, button) {
 	font-size: 1.2rem !important;
 }
 
 .short-input {
-	width: 20vw
+	width: 20vw;
 }
 
 .alert {
@@ -30,9 +44,8 @@ style.innerHTML = `*:not(h1, h2, h3, h4, h5, h6) {
 	align-items: center !important;
 }
 
-.closeButton {
-	padding: 0 12px 0 12px !important;
-	font-family: Garamond, "Apple Garamond";
+button {
+	font-size: 1rem !important;
 }
 `;
 document.head.appendChild(style);
@@ -95,21 +108,22 @@ class basicUIObject {
 		this.classes = "";
 		this.id = "";
 		this.style = "";
-		this.removed = false;
+		this.removed = true;
+		this.added = false;
 	}
 
 	// this function removes element from the body
 	remove() {
-		this.wrapper.removeChild(this.outerElement);
+		this.outerElement.style.display = "none";
 		this.removed = true;
 	}
 
 	// this function updates the element
 	update() {
-		this.updated = true;
 		this.remove();
 		this.add(false);
 		if (this.style) this.element.style.cssText = this.style;
+		this.updated = true;
 	}
 
 	// this function sets the style to the element
@@ -126,13 +140,8 @@ class basicUIObject {
 	wrap() {
 		let wrapper;
 		if (!this.wrapper) {
-			if (this.removed) {
-				wrapper = document.getElementById(this.hiddenId);
-				this.removed = false;
-			} else {
-				wrapper = document.createElement("span");
-				wrapper.id = this.hiddenId;
-			}
+			wrapper = document.createElement("span");
+			wrapper.id = this.hiddenId;
 			this.wrapper = wrapper;
 		} else {
 			wrapper = this.wrapper;
@@ -185,18 +194,21 @@ class NavBar extends basicUIObject {
 
 	// this function adds the navbar to the body
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let nav = document.createElement("nav");
-		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme} ${this.type}`;
-		nav.innerHTML = this.src;
-		if (this.backgroundColor !== "") {
-			nav.style.setProperty("background-color", this.backgroundColor, "important");
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.element = document.createElement("nav");
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
 		}
-		wrapper.appendChild(nav);
-		this.element = nav;
+		this.element.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme} ${this.type}`;
+		this.element.innerHTML = this.src;
+		if (this.backgroundColor !== "") {
+			this.element.style.setProperty("background-color", this.backgroundColor, "important");
+		}
+		this.wrapper.appendChild(this.element);
 		this.outerElement = this.element;
 		navbarObject = this;
-		if (visible) body.appendChild(wrapper);
+		this.outerElement.style.display = "block";
 	}
 
 	// this function sets the background color of the navbar
@@ -212,6 +224,8 @@ class NavBar extends basicUIObject {
 			navTitle.href = href;
 		}
 		navTitle.innerText = title;
+		console.log(title);
+		console.log(navTitle);
 		this.title = [title, href];
 	}
 
@@ -355,25 +369,51 @@ class Input extends basicUIObject {
 
 	// this function adds input to the body
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let span = document.createElement("span");
-		this.alignContent(span, this.position);
-		let input = document.createElement("input");
-		manageTheme(input, this.theme);
-		input.className = "form-control " + this.classes;
-		input.id = this.id;
-		input.type = this.type;
-		input.placeholder = this.placeholder;
-		input.value = this.value;
-		if (!this.width) {
-			input.className += " short-input";
+		let createOuter = false;
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.element = document.createElement("input");
+			manageTheme(this.element, this.theme);
+			this.outerElement = document.createElement("div");
+			this.outerElement.id = this.hiddenId + "Outer";
+			if (visible) body.appendChild(this.wrapper);
+			createOuter = true;
+			this.added = true;
 		} else {
-			input.style.width = this.width;
+			this.outerElement.style.display = "block";
+			this.removed = false;
 		}
-		span.appendChild(input);
-		this.element = input;
-		wrapper.appendChild(span);
-		if (visible) body.appendChild(wrapper);
+
+		this.outerElement.className = "form-outline" + (!this.width ? " short-input" : "");
+		if (this.position === "center")
+			this.outerElement.style.margin = "auto";
+		else if (this.position === "right") {
+			this.outerElement.style.marginRight = "0";
+			this.outerElement.style.marginLeft = "auto";
+		}
+
+		this.element.className = "form-control " + this.classes;
+		this.element.id = this.id + " " + this.hiddenId + "forLabel for"
+			+ this.type[0].toUpperCase() + this.type.slice(1);
+		this.element.type = this.type;
+		this.element.value = this.value;
+		if (!this.width) {
+			this.element.className += " short-input";
+		} else {
+			this.element.style.width = this.width;
+		}
+
+		let label = document.createElement("label");
+		label.className = "form-label";
+		label.htmlFor = this.hiddenId + "forLabel";
+		label.innerHTML = this.placeholder;
+
+		if (createOuter) {
+			this.outerElement.appendChild(this.element);
+			this.outerElement.appendChild(label);
+			this.wrapper.appendChild(this.outerElement);
+		}
+
 		this.setStyle(this.style);
 	}
 }
@@ -487,50 +527,59 @@ class Card extends basicUIObject {
 	}
 
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let span = document.createElement("span");
-		this.alignContent(span, this.position);
-		let card = document.createElement("div");
-		card.className = "card mb-3 " + this.classes;
-		manageTheme(card, this.theme);
-		card.id = this.id;
-		card.style.width = "18rem";
-		if (this.image !== "") {
-			let image = document.createElement("img");
-			image.src = this.image ? this.image : "...";
-			image.class = "card-img-top";
-			image.alt = "Card Image";
-			card.appendChild(image);
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.outerElement = document.createElement("span");
+			this.element = document.createElement("div");
+			if (this.image !== "") {
+				if (this.imageElement) this.element.removeChild(this.imageElement)
+				this.imageElement = document.createElement("img");
+				this.imageElement.src = this.image;
+				this.imageElement.class = "card-img-top";
+				this.imageElement.alt = "Card Image";
+				this.element.appendChild(this.imageElement);
+			}
+			this.body = document.createElement("div");
+			this.body.className = "card-body";
+			this.titleElement = document.createElement("h5");
+			this.titleElement.className = "card-title";
+			this.body.appendChild(this.titleElement);
+			if (this.subtitle) {
+				this.subtitleElement = document.createElement("h6");
+				this.subtitleElement.className = "card-subtitle mb-2 text-muted";
+				this.body.appendChild(this.subtitleElement);
+			}
+			this.p = document.createElement("p");
+			this.p.className = "card-text";
+			this.body.appendChild(this.p);
+			this.a = document.createElement("a");
+			this.body.appendChild(this.a);
+			this.element.appendChild(this.body);
+			this.outerElement.appendChild(this.element);
+			this.wrapper.appendChild(this.outerElement);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
+		} else {
+			this.outerElement.style.display = "block";
+			this.removed = false;
 		}
-		let div = document.createElement("div");
-		div.className = "card-body";
-		let title = document.createElement("h5");
-		title.className = "card-title";
-		title.innerText = this.title;
-		div.appendChild(title);
-		if (this.subtitle) {
-			let subtitle = document.createElement("h6");
-			subtitle.className = "card-subtitle mb-2 text-muted";
-			subtitle.innerText = this.subtitle;
-			div.appendChild(subtitle);
-		}
-		let p = document.createElement("p");
-		p.className = "card-text";
-		p.innerText = this.text;
-		div.appendChild(p);
-		let a = document.createElement("a");
-		a.href = this.link[1];
-		a.innerText = this.link[0];
-		a.className = this.link[2] === "button" ? "btn btn-primary" : "card-link";
-		if (this.button) a.onclick = this.button.onclick;
-		this.button = a;
-		div.appendChild(a);
-		card.appendChild(div);
-		span.appendChild(card);
-		this.element = card;
-		wrapper.appendChild(span);
-		if (visible) body.appendChild(wrapper);
+
+		this.alignContent(this.outerElement, this.position);
+		this.element.className = "card mb-3 " + this.classes;
+		this.element.id = this.id;
+		this.element.style.width = "18rem";
+
+		this.titleElement.innerText = this.title;
+		if (this.subtitleElement) this.subtitleElement.innerText = this.subtitle;
+
+		this.p.innerText = this.text;
+		this.a.href = this.link[1];
+		this.a.innerText = this.link[0];
+		this.a.className = this.link[2] === "button" ? "btn btn-primary" : "card-link";
+		if (this.button) this.a.onclick = this.button.onclick;
+		this.button = this.a;
 		this.setStyle(this.style);
+		manageTheme(this.element, this.theme);
 	}
 }
 
@@ -547,35 +596,42 @@ class Grid extends basicUIObject {
 	}
 
 	add(visible = true) {
-		let wrapper = this.wrap();
-		this.items.forEach((array, index) => {
-			array.forEach((element, index) => {
-				if (!this.updated) element.add(false);
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.items.forEach((array) => {
+				array.forEach((element) => {
+					if (!this.updated) element.add(false);
+				});
 			});
-		});
-		let span = document.createElement("span");
-		this.alignContent(span, this.position);
-		let grid = document.createElement("div");
-		grid.className = "container " + this.classes;
-		grid.style.backgroundColor = this.theme === "dark" ? darkBackgroundColor : "white";
-		grid.id = this.id;
-		grid.style.borderRadius = ".25rem";
-		this.items.forEach((itemRow, index) => {
-			let row = document.createElement("div");
-			row.className = "row";
-			itemRow.forEach((item, index) => {
+			this.outerElement = document.createElement("span");
+			this.element = document.createElement("div");
+			this.row = document.createElement("div");
+			this.element.appendChild(this.row);
+			this.outerElement.appendChild(this.element);
+			this.wrapper.appendChild(this.outerElement);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
+		} else {
+			this.items = [];
+			this.outerElement.style.display = "block";
+			this.removed = false;
+		}
+
+		this.alignContent(this.outerElement, this.position);
+		this.element.className = "container " + this.classes;
+		this.element.style.backgroundColor = this.theme === "dark" ? darkBackgroundColor : "white";
+		this.element.id = this.id;
+		this.element.style.borderRadius = ".25rem";
+		this.items.forEach((itemRow) => {
+			this.row.className = "row";
+			itemRow.forEach((item) => {
 				let col = document.createElement("div");
 				col.className = "col";
 				col.style.marginTop = "2vh";
 				col.appendChild(item.wrapper);
-				row.appendChild(col);
+				this.row.appendChild(col);
 			});
-			grid.appendChild(row);
 		});
-		span.appendChild(grid);
-		this.element = grid;
-		wrapper.appendChild(span);
-		if (visible) body.appendChild(wrapper);
 		this.setStyle(this.style);
 	}
 }
@@ -602,8 +658,7 @@ class Alert extends basicUIObject {
 			alert.role = "alert";
 			alert.innerHTML = this.text;
 			let closeButton = document.createElement("button");
-			closeButton.className = `btn btn-outline-${this.type} closeButton`;
-			closeButton.innerText = "×";
+			closeButton.className = `btn-close`;
 			closeButton.onclick = () => {
 				alertField.removeChild(alert);
 			}
@@ -719,7 +774,7 @@ function toggleTheme() {
 		navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
 		copy = [...navbarObject.items];
 		navbarObject.items = [];
-		copy.forEach((item, i) => {
+		copy.forEach((item) => {
 			navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
 		});
 		if (light) {
