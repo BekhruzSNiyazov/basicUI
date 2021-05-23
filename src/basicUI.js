@@ -44,11 +44,6 @@ style.innerHTML = `
 	align-items: center !important;
 }
 
-.closeButton {
-	padding: 0 12px 0 12px !important;
-	font-family: Garamond, "Apple Garamond";
-}
-
 button {
 	font-size: 1rem !important;
 }
@@ -649,8 +644,7 @@ class Alert extends basicUIObject {
 			alert.role = "alert";
 			alert.innerHTML = this.text;
 			let closeButton = document.createElement("button");
-			closeButton.className = `btn btn-outline-${this.type} closeButton`;
-			closeButton.innerText = "×";
+			closeButton.className = `btn-close`;
 			closeButton.onclick = () => {
 				alertField.removeChild(alert);
 			}
