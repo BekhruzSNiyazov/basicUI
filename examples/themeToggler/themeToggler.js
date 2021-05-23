@@ -9,6 +9,9 @@ setTitle("Theme Toggler - basicUI");
 
 addNewLine();
 
+addHeading("Hello", 6, "center");
+addText("world", "center");
+
 // creating cards
 let card1 = new Card("Card One", "This is the first card.", ["Link", "#"]);
 let card2 = new Card("Card Two", "This is the second card.", ["Link", "#"]);
