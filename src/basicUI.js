@@ -83,9 +83,33 @@ let navbarObject;
 
 // this function sets classes to the element by the theme
 function manageTheme(element, theme, background = true) {
-	if (theme === "light") element.className += (fontColor ? " " : " text-dark") + (background ? " bg-light" : "");
-	else if (theme === "dark") element.className += (fontColor ? " " : " text-light") + (background ? " bg-dark" : "");
-	else throw `Theme can only be "light" or "dark"`;
+	if (theme === "light") {
+		if (!fontColor) {
+			if (element.className.includes("text-light"))
+				element.className = element.className.replace("text-light", "text-dark");
+			else
+				element.className += " text-dark";
+		}
+		if (background) {
+			if (element.className.includes("bg-dark"))
+				element.className = element.className.replace("bg-dark", "bg-light");
+			else
+				element.className += " bg-light";
+		}
+	} else if (theme === "dark") {
+		if (!fontColor) {
+			if (element.className.includes("text-dark"))
+				element.className = element.className.replace("text-dark", "text-light");
+			else
+				element.className += "text-light";
+		}
+		if (background) {
+			if (element.className.includes("bg-light"))
+				element.className = element.className.replace("bg-light", "bg-dark");
+			else
+				element.className += " bg-dark";
+		}
+	} else throw `Theme can only be "light" or "dark"`;
 }
 
 // this function adjusts the size of the image
@@ -96,7 +120,6 @@ function adjustSize(image, width) {
 		let aspectRatio = w / h;
 		image.style.width = width + "px";
 		image.style.height = (width / w * h) + "px";
-		console.log(width / w * h)
 	}
 }
 
@@ -225,8 +248,6 @@ class NavBar extends basicUIObject {
 			navTitle.href = href;
 		}
 		navTitle.innerText = title;
-		console.log(title);
-		console.log(navTitle);
 		this.title = [title, href];
 	}
 
@@ -307,19 +328,22 @@ class Text extends basicUIObject {
 
 	// this function adds text to the body
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let div = document.createElement("div");
-		manageTheme(div, this.theme, false);
-		div.className += " " + this.classes;
-		div.id = this.id;
-		div.innerText = this.text;
-		div.style.textAlign = this.position;
-		div.style.color = this.color;
-		this.element = div;
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.element = document.createElement("div");
+			this.wrapper.appendChild(this.element);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
+		} else {
+			this.outerElement.style.display = "block";
+			this.removed = false;
+		}
+		manageTheme(this.element, this.theme, false);
+		this.element.className += " " + this.classes;
+		this.element.id = this.id;
+		this.element.innerText = this.text;
 		this.outerElement = this.element;
-		wrapper.appendChild(div);
-		if (visible) body.appendChild(wrapper);
-		this.setStyle(this.style);
+		this.setStyle(this.style + `color: ${this.color} !important; text-align: ${this.position} !important;`);
 	}
 }
 
@@ -331,6 +355,10 @@ class Heading extends basicUIObject {
 		this.position = position;
 		this.theme = "light";
 		this.hiddenId = "header-" + headerCount++;
+		let positions = [" left", " right", " center"];
+		if (!positions.includes(" " + position)) {
+			throw `Position ${position} is not recognized. Here is a list of available positions:${positions}`;
+		}
 		if (!["light", "dark"].includes(this.theme)) {
 			throw `Theme can only be "light" or "dark"`;
 		}
@@ -338,19 +366,23 @@ class Heading extends basicUIObject {
 
 	// this function adds the header
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let htmlHeader = "h" + (7 - this.size);
-		let header = document.createElement(htmlHeader);
-		manageTheme(header, this.theme, false);
-		header.className += " " + this.classes;
-		header.id = this.id;
-		header.innerText = this.text;
-		header.style.textAlign = this.position;
-		this.element = header;
-		this.outerElement = header;
-		wrapper.appendChild(header);
-		if (visible) body.appendChild(wrapper);
-		this.setStyle(this.style);
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			let htmlHeader = "h" + (7 - this.size);
+			this.element = document.createElement(htmlHeader);
+			this.wrapper.appendChild(this.element);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
+		} else {
+			this.outerElement.style.display = "block";
+			this.removed = false;
+		}
+		manageTheme(this.element, this.theme, false);
+		this.element.className += " " + this.classes;
+		this.element.id = this.id;
+		this.element.innerText = this.text;
+		this.outerElement = this.element;
+		this.setStyle(this.style + `text-align: ${this.position} !important;`);
 	}
 }
 
@@ -384,7 +416,7 @@ class Input extends basicUIObject {
 			this.removed = false;
 		}
 
-		this.outerElement.className = "form-outline" + (!this.width ? " short-input" : "");
+		this.outerElement.className = "form-outline" + (!this.width ? " short-input " : "");
 		if (this.position === "center")
 			this.outerElement.style.margin = "auto";
 		else if (this.position === "right") {
@@ -416,7 +448,6 @@ class Input extends basicUIObject {
 
 		manageTheme(this.outerElement, this.theme);
 		manageTheme(this.element, this.theme);
-		console.log(this.theme);
 		if (this.theme === "light") {
 			this.outerElement.removeChild(this.outerElement.getElementsByTagName("label")[0]);
 			this.label.className += " text-dark";
@@ -451,23 +482,29 @@ class Button extends basicUIObject {
 
 	// this function adds the button to the body
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let span = document.createElement("span");
-		this.alignContent(span, this.position);
-		let button = document.createElement("button");
-		button.className = "btn" + this.classes;
-		if (!this.type) {
-			manageTheme(button, this.theme);
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.outerElement = document.createElement("span");
+			this.element = document.createElement("button");
+			this.outerElement.appendChild(this.element);
+			this.wrapper.appendChild(this.outerElement);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
 		} else {
-			button.className += " btn-" + this.type;
+			this.outerElement.style.display = "block";
+			this.removed = false;
 		}
-		button.id = this.id;
-		button.innerHTML = this.text;
-		button.onclick = this.onclick;
-		span.appendChild(button);
-		this.element = button;
-		wrapper.appendChild(span);
-		if (visible) body.appendChild(wrapper);
+		this.alignContent(this.outerElement, this.position);
+		this.element.className = "btn" + this.classes;
+		if (!this.type) {
+			manageTheme(this.element, this.theme);
+		} else {
+			this.element.className += " btn-" + this.type;
+		}
+		this.element.id = this.id;
+		console.log(this.id);
+		this.element.innerHTML = this.text;
+		this.element.onclick = this.onclick;
 		this.setStyle(this.style);
 	}
 }
@@ -487,38 +524,47 @@ class Table extends basicUIObject {
 
 	// this function adds table to the body
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let span = document.createElement("span");
-		this.alignContent(span, this.position);
-		let table = document.createElement("table");
-		table.className = "table " + this.classes;
-		manageTheme(table, this.theme, false);
-		table.id = this.id;
-		let thead = document.createElement("thead");
-		let trHead = document.createElement("tr");
-		this.firstRow.forEach((element, index) => {
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.outerElement = document.createElement("span");
+			this.element = document.createElement("table");
+			this.thead = document.createElement("thead");
+			this.trHead = document.createElement("tr");
+			this.tbody = document.createElement("tbody");
+			this.element.appendChild(this.thead);
+			this.element.appendChild(this.tbody);
+			this.outerElement.appendChild(this.element);
+			this.wrapper.appendChild(this.outerElement);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
+		} else {
+			this.element.removeChild(this.tbody);
+			this.tbody = document.createElement("tbody");
+			this.element.appendChild(this.tbody);
+			this.outerElement.style.display = "block";
+			this.removed = true;
+		}
+		this.alignContent(this.outerElement, this.position);
+		this.element.className = "table " + this.classes;
+		manageTheme(this.element, this.theme, false);
+		this.element.id = this.id;
+		this.trHead.innerHTML = "";
+		this.firstRow.forEach((element) => {
 			let th = document.createElement("th");
 			th.scope = "col";
 			th.innerText = element;
-			trHead.appendChild(th);
+			this.trHead.appendChild(th);
 		});
-		thead.appendChild(trHead);
-		table.appendChild(thead);
-		let tbody = document.createElement("tbody");
-		this.rows.forEach((row, index) => {
+		this.thead.appendChild(this.trHead);
+		this.rows.forEach((row) => {
 			let tr = document.createElement("tr");
-			row.forEach((element, i) => {
+			row.forEach((element) => {
 				let td = document.createElement("td");
 				td.innerText = element;
 				tr.appendChild(td);
 			});
-			tbody.appendChild(tr);
+			this.tbody.appendChild(tr);
 		});
-		table.appendChild(tbody);
-		this.element = table;
-		span.appendChild(table);
-		wrapper.appendChild(span);
-		if (visible) body.appendChild(wrapper);
 		this.setStyle(this.style);
 	}
 }
