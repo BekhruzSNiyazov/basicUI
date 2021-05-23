@@ -194,18 +194,21 @@ class NavBar extends basicUIObject {
 
 	// this function adds the navbar to the body
 	add(visible = true) {
-		let wrapper = this.wrap();
-		let nav = document.createElement("nav");
-		nav.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme} ${this.type}`;
-		nav.innerHTML = this.src;
-		if (this.backgroundColor !== "") {
-			nav.style.setProperty("background-color", this.backgroundColor, "important");
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.element = document.createElement("nav");
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
 		}
-		wrapper.appendChild(nav);
-		this.element = nav;
+		this.element.className = `navbar navbar-expand-lg navbar-${this.theme} bg-${this.theme} ${this.type}`;
+		this.element.innerHTML = this.src;
+		if (this.backgroundColor !== "") {
+			this.element.style.setProperty("background-color", this.backgroundColor, "important");
+		}
+		this.wrapper.appendChild(this.element);
 		this.outerElement = this.element;
 		navbarObject = this;
-		if (visible) body.appendChild(wrapper);
+		this.outerElement.style.display = "block";
 	}
 
 	// this function sets the background color of the navbar
@@ -221,6 +224,8 @@ class NavBar extends basicUIObject {
 			navTitle.href = href;
 		}
 		navTitle.innerText = title;
+		console.log(title);
+		console.log(navTitle);
 		this.title = [title, href];
 	}
 
@@ -388,7 +393,8 @@ class Input extends basicUIObject {
 		}
 
 		this.element.className = "form-control " + this.classes;
-		this.element.id = this.id + " " + this.hiddenId + "forLabel";
+		this.element.id = this.id + " " + this.hiddenId + "forLabel for"
+			+ this.type[0].toUpperCase() + this.type.slice(1);
 		this.element.type = this.type;
 		this.element.value = this.value;
 		if (!this.width) {
@@ -524,10 +530,7 @@ class Card extends basicUIObject {
 		if (!this.added) {
 			this.wrapper = this.wrap();
 			this.outerElement = document.createElement("span");
-			this.alignContent(this.outerElement, this.position);
 			this.element = document.createElement("div");
-			manageTheme(this.element, this.theme);
-			this.added = true;
 			if (this.image !== "") {
 				if (this.imageElement) this.element.removeChild(this.imageElement)
 				this.imageElement = document.createElement("img");
@@ -555,10 +558,13 @@ class Card extends basicUIObject {
 			this.outerElement.appendChild(this.element);
 			this.wrapper.appendChild(this.outerElement);
 			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
 		} else {
 			this.outerElement.style.display = "block";
 			this.removed = false;
 		}
+
+		this.alignContent(this.outerElement, this.position);
 		this.element.className = "card mb-3 " + this.classes;
 		this.element.id = this.id;
 		this.element.style.width = "18rem";
@@ -573,6 +579,7 @@ class Card extends basicUIObject {
 		if (this.button) this.a.onclick = this.button.onclick;
 		this.button = this.a;
 		this.setStyle(this.style);
+		manageTheme(this.element, this.theme);
 	}
 }
 
@@ -589,35 +596,42 @@ class Grid extends basicUIObject {
 	}
 
 	add(visible = true) {
-		let wrapper = this.wrap();
-		this.items.forEach((array, index) => {
-			array.forEach((element, index) => {
-				if (!this.updated) element.add(false);
+		if (!this.added) {
+			this.wrapper = this.wrap();
+			this.items.forEach((array) => {
+				array.forEach((element) => {
+					if (!this.updated) element.add(false);
+				});
 			});
-		});
-		let span = document.createElement("span");
-		this.alignContent(span, this.position);
-		let grid = document.createElement("div");
-		grid.className = "container " + this.classes;
-		grid.style.backgroundColor = this.theme === "dark" ? darkBackgroundColor : "white";
-		grid.id = this.id;
-		grid.style.borderRadius = ".25rem";
-		this.items.forEach((itemRow, index) => {
-			let row = document.createElement("div");
-			row.className = "row";
-			itemRow.forEach((item, index) => {
+			this.outerElement = document.createElement("span");
+			this.element = document.createElement("div");
+			this.row = document.createElement("div");
+			this.element.appendChild(this.row);
+			this.outerElement.appendChild(this.element);
+			this.wrapper.appendChild(this.outerElement);
+			if (visible) body.appendChild(this.wrapper);
+			this.added = true;
+		} else {
+			this.items = [];
+			this.outerElement.style.display = "block";
+			this.removed = false;
+		}
+
+		this.alignContent(this.outerElement, this.position);
+		this.element.className = "container " + this.classes;
+		this.element.style.backgroundColor = this.theme === "dark" ? darkBackgroundColor : "white";
+		this.element.id = this.id;
+		this.element.style.borderRadius = ".25rem";
+		this.items.forEach((itemRow) => {
+			this.row.className = "row";
+			itemRow.forEach((item) => {
 				let col = document.createElement("div");
 				col.className = "col";
 				col.style.marginTop = "2vh";
 				col.appendChild(item.wrapper);
-				row.appendChild(col);
+				this.row.appendChild(col);
 			});
-			grid.appendChild(row);
 		});
-		span.appendChild(grid);
-		this.element = grid;
-		wrapper.appendChild(span);
-		if (visible) body.appendChild(wrapper);
 		this.setStyle(this.style);
 	}
 }
@@ -760,7 +774,7 @@ function toggleTheme() {
 		navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
 		copy = [...navbarObject.items];
 		navbarObject.items = [];
-		copy.forEach((item, i) => {
+		copy.forEach((item) => {
 			navbarObject.addItem(item[0], item[1], item[2], item[3], item[4]);
 		});
 		if (light) {
