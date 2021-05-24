@@ -51,6 +51,7 @@ function showBackSide(flashcard, card) {
 
 let viewButton = addButton("View all cards", "secondary", "center");
 viewButton.setStyle(`position: fixed; bottom: 15vh;`);
+viewButton.onclick = cardView;
 viewButton.update();
 
 let flashcards = [];
@@ -97,8 +98,4 @@ function cardView() {
 	viewButton.text = "Create more cards";
 	viewButton.onclick = createCardView;
 	viewButton.update();
-}
-
-viewButton.element.onclick = () => {
-	cardView();
 }
