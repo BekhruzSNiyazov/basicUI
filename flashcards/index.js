@@ -31,8 +31,9 @@ function addCard() {
 }
 
 let addCardButton = addButton("Add Card", "primary", "center");
-addCardButton.element.id = "button";
-addCardButton.element.onclick = addCard;
+addCardButton.id = "button";
+addCardButton.onclick = addCard;
+addCardButton.update();
 
 function showFrontSide(flashcard, card) {
 	flashcard.text = card[1];
@@ -50,6 +51,7 @@ function showBackSide(flashcard, card) {
 
 let viewButton = addButton("View all cards", "secondary", "center");
 viewButton.setStyle(`position: fixed; bottom: 15vh;`);
+viewButton.onclick = cardView;
 viewButton.update();
 
 let flashcards = [];
@@ -80,24 +82,20 @@ function cardView() {
 	addCardButton.remove();
 	grid.items = [];
 	flashcards = [];
-	cards.forEach((card, i) => {
+	cards.forEach((card) => {
 		let flashcard = new Card(card[0], card[1], ["Back", "#", "button"], "", "center");
 		flashcard.add(false);
 		flashcard.button.onclick = () => { showBackSide(flashcard, card); }
 		flashcards = [...flashcards, flashcard];
 	});
-	grid.items = [[...flashcards]];
+	grid.items = [Array.from(flashcards)];
 	if (first) {
 		grid.add();
 		first = false;
 	} else {
-		grid.add(false);
+		grid.update();
 	}
 	viewButton.text = "Create more cards";
 	viewButton.onclick = createCardView;
 	viewButton.update();
-}
-
-viewButton.element.onclick = () => {
-	cardView();
 }
