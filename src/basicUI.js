@@ -71,6 +71,7 @@ let alertCount = 0;
 
 // current theme
 let light = true;
+let websiteTheme = "light";
 
 // list of all elements
 let elements = [];
@@ -193,7 +194,7 @@ class basicUIObject {
 }
 
 class NavBar extends basicUIObject {
-	constructor(theme = "light", backgroundColor = "") {
+	constructor(theme = websiteTheme, backgroundColor = "") {
 		super();
 		this.theme = theme;
 		this.backgroundColor = backgroundColor;
@@ -318,7 +319,7 @@ class Text extends basicUIObject {
 		this.text = text;
 		this.position = position;
 		this.color = "";
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "text-" + textCount++;
 		let positions = [" left", " right", " center"];
 		if (!positions.includes(" " + position)) {
@@ -357,7 +358,7 @@ class Heading extends basicUIObject {
 		this.text = text;
 		this.size = size;
 		this.position = position;
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "header-" + headerCount++;
 		let positions = [" left", " right", " center"];
 		if (!positions.includes(" " + position)) {
@@ -398,7 +399,7 @@ class Input extends basicUIObject {
 		this.placeholder = placeholder;
 		this.value = "";
 		this.position = "left";
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "input-" + inputCount++;
 		if (!["light", "dark"].includes(this.theme)) {
 			throw `Theme can only be "light" or "dark"`;
@@ -473,7 +474,7 @@ class Button extends basicUIObject {
 		this.text = text;
 		this.type = type;
 		this.position = position;
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.onclick = null;
 		this.hiddenId = "button-" + buttonCount++;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
@@ -520,7 +521,7 @@ class Table extends basicUIObject {
 		this.firstRow = firstRow;
 		this.rows = rows;
 		this.position = position;
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "table-" + tableCount++;
 		if (!["light", "dark"].includes(this.theme)) {
 			throw `Theme can only be "light" or "dark"`;
@@ -584,7 +585,7 @@ class Card extends basicUIObject {
 		this.link = link;
 		this.image = image;
 		this.position = position;
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "card-" + cardCount++;
 		if (!["light", "dark"].includes(this.theme)) {
 			throw `Theme can only be "light" or "dark"`;
@@ -656,7 +657,7 @@ class Grid extends basicUIObject {
 		super();
 		this.items = items;
 		this.position = position;
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "grid-" + gridCount++;
 		if (!["light", "dark"].includes(this.theme)) {
 			throw `Theme can only be "light" or "dark"`;
@@ -686,9 +687,10 @@ class Grid extends basicUIObject {
 			});
 		});
 
+		manageTheme(this.element, this.theme);
+
 		this.alignContent(this.outerElement, this.position);
 		this.element.className = "container " + this.classes;
-		this.element.style.backgroundColor = this.theme === "dark" ? darkBackgroundColor : "white";
 		this.element.id = this.id;
 		this.element.style.borderRadius = ".25rem";
 		this.items.forEach((itemRow) => {
@@ -710,7 +712,7 @@ class Alert extends basicUIObject {
 		super();
 		this.text = text;
 		this.type = type;
-		this.theme = "light";
+		this.theme = websiteTheme;
 		this.hiddenId = "alerts-" + alertCount++;
 		let types = [" primary", " secondary", " success", " danger", " warning", " info", " light", " dark"];
 		if (!types.includes(" " + type)) {
@@ -834,12 +836,14 @@ let themeToggleBusy = false;
 // this function toggles the theme
 function toggleTheme() {
 	if (!themeToggleBusy) {
+		websiteTheme = light ? "dark" : "light";
 		themeToggleBusy = true;
 		let copy;
-		elements.forEach((element, index) => {
-			element.theme = light ? "dark" : "light";
-			element.update();
-			if (element.removed === true) element.remove();
+		elements.forEach((element) => {
+			element.theme = websiteTheme;
+			let removed = element.removed;
+			element.update()
+			if (removed) element.remove();
 		});
 		if (navbarObject) {
 			navbarObject.setTitle(navbarObject.title[0], navbarObject.title[1]);
