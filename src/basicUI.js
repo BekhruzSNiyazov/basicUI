@@ -720,9 +720,10 @@ class Alert extends basicUIObject {
 		}
 	}
 
-	add() {
+	async add() {
 		let alertField = document.getElementById("alertField");
 		if (alertField) {
+			let duration = 200;
 			let alert = document.createElement("div");
 			alert.className = `alert alert-${this.type} ${this.classes}`;
 			alert.id = this.id;
@@ -730,7 +731,16 @@ class Alert extends basicUIObject {
 			alert.innerHTML = this.text;
 			let closeButton = document.createElement("button");
 			closeButton.className = `btn-close`;
-			closeButton.onclick = () => {
+			closeButton.onclick = async () => {
+				alert.animate([
+					{ opacity: 0 }
+				], { duration, iterations: 1, fill: "forwards" });
+				await new Promise(r => setTimeout(r, duration));
+				console.log(alert.clientHeight);
+				alert.animate([
+					{ marginBottom: `-${alert.clientHeight}px` }
+				], { duration, iterations: 1, fill: "forwards" });
+				await new Promise(r => setTimeout(r, duration));
 				alertField.removeChild(alert);
 			}
 			this.closeButton = closeButton;
@@ -738,6 +748,12 @@ class Alert extends basicUIObject {
 			this.wrapper = alertField;
 			this.element = alert;
 			alertField.appendChild(alert);
+			alert.style.opacity = "1";
+			alert.style.marginTop = "-" + alert.clientHeight + "px";
+			alert.animate([
+				{ marginTop: 0 },
+				{ opacity: 0 }
+			], { duration, iterations: 1, fill: "forwards", direction: "reverse" });
 			this.setStyle(this.style);
 		} else {
 			throw "You need to create a field for alerts messages first. Use createAlertField function for that purpose.";
