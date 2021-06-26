@@ -282,7 +282,7 @@ class NavBar extends basicUIObject {
 		} else if (role === "input") {
 			li.innerHTML = `<input type="${properties[0]}" placeholder="${properties[1]}" class="form-control ${classes}" id="${id}">`;
 		} else if (role === "button") {
-			li.innerHTML = `<button type="button" class="btn btn-${properties[0]} ${classes}" id="${id}">${properties[1]}</button>`
+			li.innerHTML = `<button type="button" class="btn btn-${properties[0]} ${classes}" id="${id}" onclick="${properties[2]}">${properties[1]}</button>`
 		} else if (role === "dropdown") {
 			li.className = "nav-item dropdown";
 			let a = document.createElement("a");

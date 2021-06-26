@@ -17,7 +17,7 @@ navbar.addItem("text", "Just text", "right");
 let input = navbar.addItem("input", ["text", "Placeholder"], "right");
 input.style.marginRight = "1vw";
 // adding a button
-navbar.addItem("button", ["primary", "Button"], "right");
+navbar.addItem("button", ["primary", "Button", "alert(`hello, world`)"], "right");
 // adding a dropdown menu
 navbar.addItem("dropdown", ["Dropdown", [["hello", "/hello"], ["world", "/world"]]]);
 // setting the title of the webpage
