@@ -430,9 +430,8 @@ class Input extends basicUIObject {
 			this.outerElement.style.marginLeft = "auto";
 		}
 
-		this.element.className = "form-control " + this.classes;
 		this.element.id = this.id + " " + this.hiddenId + "forLabel for"
-			+ this.type[0].toUpperCase() + this.type.slice(1);
+		+ this.type[0].toUpperCase() + this.type.slice(1);
 		this.element.type = this.type;
 		this.element.value = this.value;
 		if (!this.width) {
@@ -440,6 +439,7 @@ class Input extends basicUIObject {
 		} else {
 			this.element.style.width = this.width;
 		}
+		this.element.className = "form-control " + this.classes;
 
 		this.label = document.createElement("label");
 		this.label.className = "form-label";
