@@ -443,6 +443,7 @@ class Input extends basicUIObject {
 		this.label.innerHTML = this.placeholder;
 
 		if (createOuter) {
+			console.log(this.outerElement);
 			this.outerElement.appendChild(this.element);
 			this.outerElement.appendChild(this.label);
 			this.wrapper.appendChild(this.outerElement);
