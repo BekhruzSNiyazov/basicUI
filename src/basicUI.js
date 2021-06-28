@@ -434,7 +434,8 @@ class Input extends basicUIObject {
 		+ this.type[0].toUpperCase() + this.type.slice(1);
 		this.element.type = this.type;
 		this.element.value = this.value;
-		this.outerElement.className = "form-control " + this.classes;
+		this.element.className = "form-control " + this.classes;
+		this.outerElement += " " + this.classes;
 
 		this.label = document.createElement("label");
 		this.label.className = "form-label";
