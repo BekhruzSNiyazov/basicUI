@@ -30,11 +30,9 @@ style.innerHTML = `
 *:not(h1, h2, h3, h4, h5, h6, button, .btn) {
 	font-size: 1.2rem !important;
 }
-
 .short-input {
 	width: 20vw;
 }
-
 .alert {
 	font-size: 1rem !important;
 	margin-left: 1vw;
@@ -43,7 +41,6 @@ style.innerHTML = `
 	justify-content: space-between !important;
 	align-items: center !important;
 }
-
 button {
 	font-size: 1rem !important;
 }
@@ -430,12 +427,16 @@ class Input extends basicUIObject {
 			this.outerElement.style.marginLeft = "auto";
 		}
 
+		this.element.className = "form-control " + this.classes;
 		this.element.id = this.id + " " + this.hiddenId + "forLabel for"
-		+ this.type[0].toUpperCase() + this.type.slice(1);
+			+ this.type[0].toUpperCase() + this.type.slice(1);
 		this.element.type = this.type;
 		this.element.value = this.value;
-		this.element.className = "form-control " + this.classes;
-		this.outerElement += " " + this.classes;
+		if (!this.width) {
+			this.element.className += " short-input";
+		} else {
+			this.element.style.width = this.width;
+		}
 
 		this.label = document.createElement("label");
 		this.label.className = "form-label";
@@ -443,7 +444,6 @@ class Input extends basicUIObject {
 		this.label.innerHTML = this.placeholder;
 
 		if (createOuter) {
-			console.log(this.outerElement);
 			this.outerElement.appendChild(this.element);
 			this.outerElement.appendChild(this.label);
 			this.wrapper.appendChild(this.outerElement);
