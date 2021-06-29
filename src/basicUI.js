@@ -405,6 +405,7 @@ class Input extends basicUIObject {
 
 	// this function adds input to the body
 	add(visible = true) {
+		this.classes = " " + this.classes + " ";
 		let createOuter = false;
 		if (!this.added) {
 			this.wrapper = this.wrap();
@@ -487,6 +488,7 @@ class Button extends basicUIObject {
 
 	// this function adds the button to the body
 	add(visible = true) {
+		this.classes = " " + this.classes + " ";
 		if (!this.added) {
 			this.wrapper = this.wrap();
 			this.outerElement = document.createElement("span");
@@ -735,7 +737,6 @@ class Alert extends basicUIObject {
 					{ opacity: 0 }
 				], { duration, iterations: 1, fill: "forwards" });
 				await new Promise(r => setTimeout(r, duration));
-				console.log(alert.clientHeight);
 				alert.animate([
 					{ marginBottom: `-${alert.clientHeight}px` }
 				], { duration, iterations: 1, fill: "forwards" });
