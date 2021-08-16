@@ -83,29 +83,37 @@ let navbarObject;
 function manageTheme(element, theme, background = true) {
 	if (theme === "light") {
 		if (!fontColor) {
-			if (element.className.includes("text-light"))
+			if (element.className.includes("text-light")) {
 				element.className = element.className.replace("text-light", "text-dark");
-			else
+				element.className = element.className.replaceAll("text-light", "");
+			} else {
 				element.className += " text-dark";
+			}
 		}
 		if (background) {
-			if (element.className.includes("bg-dark"))
+			if (element.className.includes("bg-dark")) {
 				element.className = element.className.replace("bg-dark", "bg-light");
-			else
+				element.className = element.className.replaceAll("bg-dark", "");
+			} else {
 				element.className += " bg-light";
+			}
 		}
 	} else if (theme === "dark") {
 		if (!fontColor) {
-			if (element.className.includes("text-dark"))
+			if (element.className.includes("text-dark")) {
 				element.className = element.className.replace("text-dark", "text-light");
-			else
+				element.className = element.className.replaceAll("text-dark", "");
+			} else {
 				element.className += "text-light";
+			}
 		}
 		if (background) {
-			if (element.className.includes("bg-light"))
+			if (element.className.includes("bg-light")) {
 				element.className = element.className.replace("bg-light", "bg-dark");
-			else
+				element.className = element.className.replaceAll("bg-light", "");
+			} else {
 				element.className += " bg-dark";
+			}
 		}
 	} else throw `Theme can only be "light" or "dark"`;
 }
